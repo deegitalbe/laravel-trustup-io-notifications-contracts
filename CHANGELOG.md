@@ -1,5 +1,11 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 0.5.1
+
+### Patch Changes
+
+- 59709ec: Align internal dependency constraint with monorepo-builder in CI
+
 ## 0.5.0
 
 ### Minor Changes
