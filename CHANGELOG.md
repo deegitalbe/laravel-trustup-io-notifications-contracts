@@ -1,5 +1,17 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 0.5.0
+
+### Minor Changes
+
+- fd5ac83: Publish packages with the aligned dependency constraint
+
+## 0.4.0
+
+### Minor Changes
+
+- eaedf36: Publish packages to their Packagist mirrors
+
 ## 0.3.0
 
 ### Minor Changes
