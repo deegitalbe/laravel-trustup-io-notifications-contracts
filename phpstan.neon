@@ -1,0 +1,21 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - src/
+        - tests/
+    level: 6
+    ignoreErrors:
+        -
+            message: '#Access to an undefined property Pest\\Mixins\\Expectation.+::\$not#'
+            path: tests/
+        -
+            message: '#Unable to resolve the template type T(Key|Value|AndValue) in call to (function (collect|expect)|method Pest\\Expectation)#'
+            path: tests/
+        -
+            message: '#Access to an undefined property Deegitalbe\\TrustupIoNotificationsContracts\\Contracts\\NotificationData::\$#'
+            path: tests/
+        -
+            message: '#Match arm comparison between .+ is always true\.#'
+            path: tests/
