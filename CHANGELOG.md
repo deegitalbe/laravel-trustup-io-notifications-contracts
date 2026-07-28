@@ -1,5 +1,15 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 0.7.0
+
+### Minor Changes
+
+- 90e41e4: Point the demand-transmitted email at the client's own demand
+
+  - Replace `pro_slug` with `demand_id` (int) and `claim_token` in `MarketplaceDemandTransmittedNotificationData`; the payload is now `first_name`, `pro_name`, `demand_id`, `claim_token`
+  - The email's call to action linked to the contractor page with a review modal, copy-pasted from the review-request template, which contradicted its own copy ("suivre l'avancement depuis votre espace membre"). It now opens the demand in the member area, authorised by the claim token
+  - The four Postmark templates were updated to match, which also fixes the language segment: every language hardcoded `/en/` in the link
+
 ## 0.6.0
 
 ### Minor Changes

@@ -18,7 +18,8 @@ final readonly class MarketplaceDemandTransmittedNotificationData implements Ema
     public function __construct(
         public string $first_name,
         public string $pro_name,
-        public string $pro_slug,
+        public int $demand_id,
+        public string $claim_token,
     ) {}
 
     public function notificationType(): NotificationType

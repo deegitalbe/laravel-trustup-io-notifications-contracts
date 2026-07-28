@@ -11,7 +11,7 @@ it('every NotificationType data class returns its own notificationType without e
         NotificationType::ToolsFullLocaleTestNotification => ['Test Title', 'Test Body'],
         NotificationType::MarketplaceReviewRequestNotification => ['First Name', 'Pro Name', 'pro-slug'],
         NotificationType::ToolsNewDemandNotification => ['First Name', 'Workfield Name', 4242],
-        NotificationType::MarketplaceDemandTransmittedNotification => ['First Name', 'Pro Name', 'pro-slug'],
+        NotificationType::MarketplaceDemandTransmittedNotification => ['First Name', 'Pro Name', 4321, 'claim-token'],
         default => throw new LogicException("No minimal args defined for [{$type->value}] in coherence test."),
     };
 
