@@ -9,18 +9,9 @@ it('every NotificationType data class returns its own notificationType without e
     $minimalArgs = match ($type) {
         NotificationType::ToolsTestNotification => ['Test Title', 'Test Body'],
         NotificationType::ToolsFullLocaleTestNotification => ['Test Title', 'Test Body'],
-        NotificationType::ToolsCommentNotification => [
-            'https://example.com/product',
-            'Product Name',
-            'Comment body',
-            [],
-            'Commenter',
-            '2026-07-23 12:00',
-            'https://example.com/action',
-            'https://example.com/notifications',
-            'Company',
-            'Company Address',
-        ],
+        NotificationType::MarketplaceReviewRequestNotification => ['First Name', 'Pro Name', 'pro-slug'],
+        NotificationType::ToolsNewDemandNotification => ['First Name', 'Workfield Name', 4242],
+        NotificationType::MarketplaceDemandTransmittedNotification => ['First Name', 'Pro Name', 'pro-slug'],
         default => throw new LogicException("No minimal args defined for [{$type->value}] in coherence test."),
     };
 

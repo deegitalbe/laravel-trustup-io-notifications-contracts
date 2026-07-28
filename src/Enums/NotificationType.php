@@ -7,8 +7,10 @@ namespace Deegitalbe\TrustupIoNotificationsContracts\Enums;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\EmailCapable;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\PushCapable;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\SmsCapable;
-use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsCommentNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceDemandTransmittedNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceReviewRequestNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsFullLocaleTestNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsTestNotificationData;
 use LogicException;
 
@@ -16,10 +18,14 @@ enum NotificationType: string
 {
     case ToolsTestNotification = 'tools.test.notification';
 
-    case ToolsCommentNotification = 'tools.comment.notification';
-
     /** Test fixture that opts into full-locale granularity for email templates. */
     case ToolsFullLocaleTestNotification = 'tools.full-locale.test.notification';
+
+    case MarketplaceReviewRequestNotification = 'marketplace.review-request.notification';
+
+    case ToolsNewDemandNotification = 'tools.new-demand.notification';
+
+    case MarketplaceDemandTransmittedNotification = 'marketplace.demand-transmitted.notification';
 
     /**
      * Dotless form of the value ("tools-test-notification"), safe to embed in a
@@ -34,8 +40,10 @@ enum NotificationType: string
     {
         return match ($this) {
             self::ToolsTestNotification => ToolsTestNotificationData::class,
-            self::ToolsCommentNotification => ToolsCommentNotificationData::class,
-            self::ToolsFullLocaleTestNotification => ToolsFullLocaleTestNotificationData::class, // @phpstan-ignore-line
+            self::ToolsFullLocaleTestNotification => ToolsFullLocaleTestNotificationData::class,
+            self::MarketplaceReviewRequestNotification => MarketplaceReviewRequestNotificationData::class,
+            self::ToolsNewDemandNotification => ToolsNewDemandNotificationData::class,
+            self::MarketplaceDemandTransmittedNotification => MarketplaceDemandTransmittedNotificationData::class, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no dataClass mapping."),
         };
     }
@@ -44,8 +52,10 @@ enum NotificationType: string
     {
         return match ($this) {
             self::ToolsTestNotification => Source::Tools,
-            self::ToolsCommentNotification => Source::Tools,
-            self::ToolsFullLocaleTestNotification => Source::Tools, // @phpstan-ignore-line
+            self::ToolsFullLocaleTestNotification => Source::Tools,
+            self::MarketplaceReviewRequestNotification => Source::Marketplace,
+            self::ToolsNewDemandNotification => Source::Tools,
+            self::MarketplaceDemandTransmittedNotification => Source::Marketplace, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no source mapping."),
         };
     }

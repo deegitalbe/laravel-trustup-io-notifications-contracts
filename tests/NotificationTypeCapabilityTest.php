@@ -38,9 +38,26 @@ it('forSource(Tools) returns only tools.* types', function (): void {
 
 it('forSource(Marketplace) returns only marketplace.* types', function (): void {
     $types = NotificationType::forSource(Source::Marketplace);
-    // No marketplace types exist yet, so the result must be an empty array (not an exception)
-    expect($types)->toBeArray();
+    expect($types)->not->toBeEmpty();
     foreach ($types as $type) {
         expect($type->value)->toStartWith('marketplace.');
     }
+});
+
+it('supportedChannels() for MarketplaceReviewRequestNotification returns only email', function (): void {
+    $channels = NotificationType::MarketplaceReviewRequestNotification->supportedChannels();
+
+    expect($channels)->toBe([NotificationChannel::Email]);
+});
+
+it('supportedChannels() for ToolsNewDemandNotification returns only email', function (): void {
+    $channels = NotificationType::ToolsNewDemandNotification->supportedChannels();
+
+    expect($channels)->toBe([NotificationChannel::Email]);
+});
+
+it('supportedChannels() for MarketplaceDemandTransmittedNotification returns only email', function (): void {
+    $channels = NotificationType::MarketplaceDemandTransmittedNotification->supportedChannels();
+
+    expect($channels)->toBe([NotificationChannel::Email]);
 });
