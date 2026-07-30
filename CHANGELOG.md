@@ -1,5 +1,13 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 0.9.0
+
+### Minor Changes
+
+- f6d5549: Add the marketplace assignation-activation notification type
+
+  - Add the `marketplace.assignation-activation.notification` type with `MarketplaceAssignationActivationNotificationData` (`demand_id`, `action_url`), bound to the marketplace source, email only.
+
 ## 0.8.0
 
 ### Minor Changes

@@ -7,6 +7,7 @@ namespace Deegitalbe\TrustupIoNotificationsContracts\Enums;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\EmailCapable;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\PushCapable;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\SmsCapable;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceAssignationActivationNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceDemandReceivedNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceDemandTransmittedNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceNewChatMessageForCustomerNotificationData;
@@ -31,6 +32,8 @@ enum NotificationType: string
 
     case MarketplaceDemandReceivedNotification = 'marketplace.demand-received.notification';
 
+    case MarketplaceAssignationActivationNotification = 'marketplace.assignation-activation.notification';
+
     case MarketplaceNewChatMessageForCustomerNotification = 'marketplace.new-chat-message-for-customer.notification';
 
     /**
@@ -51,6 +54,7 @@ enum NotificationType: string
             self::ToolsNewDemandNotification => ToolsNewDemandNotificationData::class,
             self::MarketplaceDemandTransmittedNotification => MarketplaceDemandTransmittedNotificationData::class,
             self::MarketplaceDemandReceivedNotification => MarketplaceDemandReceivedNotificationData::class,
+            self::MarketplaceAssignationActivationNotification => MarketplaceAssignationActivationNotificationData::class, // @phpstan-ignore-line
             self::MarketplaceNewChatMessageForCustomerNotification => MarketplaceNewChatMessageForCustomerNotificationData::class, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no dataClass mapping."),
         };
@@ -65,6 +69,7 @@ enum NotificationType: string
             self::ToolsNewDemandNotification => Source::Tools,
             self::MarketplaceDemandTransmittedNotification => Source::Marketplace,
             self::MarketplaceDemandReceivedNotification => Source::Marketplace,
+            self::MarketplaceAssignationActivationNotification => Source::Marketplace, // @phpstan-ignore-line
             self::MarketplaceNewChatMessageForCustomerNotification => Source::Marketplace, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no source mapping."),
         };
