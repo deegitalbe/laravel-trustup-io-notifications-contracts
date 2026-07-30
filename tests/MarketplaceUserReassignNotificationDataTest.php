@@ -1,0 +1,95 @@
+<?php
+
+declare(strict_types=1);
+
+use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserReassignNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
+
+it('builds MarketplaceUserReassignNotificationData from its fields', function (): void {
+    $data = new MarketplaceUserReassignNotificationData(
+        demand_id: 4321,
+        action_url: 'https://marketplace.example/demands/4321',
+        claim_token: 'tok_9f3ba71c',
+    );
+
+    expect($data->demand_id)->toBe(4321);
+    expect($data->action_url)->toBe('https://marketplace.example/demands/4321');
+    expect($data->claim_token)->toBe('tok_9f3ba71c');
+});
+
+it('allows claim_token to be null', function (): void {
+    $data = new MarketplaceUserReassignNotificationData(
+        demand_id: 4321,
+        action_url: 'https://marketplace.example/demands/4321',
+        claim_token: null,
+    );
+
+    expect($data->claim_token)->toBeNull();
+});
+
+it('carries every field in the serialized payload', function (): void {
+    $data = new MarketplaceUserReassignNotificationData(
+        demand_id: 4321,
+        action_url: 'https://marketplace.example/demands/4321',
+        claim_token: 'tok_9f3ba71c',
+    );
+
+    expect($data->toArray())
+        ->toHaveKey('demand_id', 4321)
+        ->toHaveKey('action_url', 'https://marketplace.example/demands/4321')
+        ->toHaveKey('claim_token', 'tok_9f3ba71c');
+});
+
+it('round-trips MarketplaceUserReassignNotificationData via toArray and fromArray', function (): void {
+    $original = new MarketplaceUserReassignNotificationData(
+        demand_id: 4321,
+        action_url: 'https://marketplace.example/demands/4321',
+        claim_token: 'tok_9f3ba71c',
+    );
+
+    $restored = MarketplaceUserReassignNotificationData::fromArray($original->toArray());
+
+    expect($restored->demand_id)->toBe($original->demand_id);
+    expect($restored->action_url)->toBe($original->action_url);
+    expect($restored->claim_token)->toBe($original->claim_token);
+});
+
+it('keeps demand_id an integer across a real JSON round-trip', function (): void {
+    $original = new MarketplaceUserReassignNotificationData(
+        demand_id: 4321,
+        action_url: 'https://marketplace.example/demands/4321',
+        claim_token: 'tok_9f3ba71c',
+    );
+
+    $decoded = json_decode(json_encode($original->toArray()), true);
+    $restored = MarketplaceUserReassignNotificationData::fromArray($decoded);
+
+    expect($restored->demand_id)->toBe(4321);
+});
+
+it('rejects a demand_id that arrives as a numeric string rather than coercing it', function (): void {
+    expect(fn () => MarketplaceUserReassignNotificationData::fromArray([
+        'demand_id' => '4321',
+        'action_url' => 'https://marketplace.example/demands/4321',
+        'claim_token' => 'tok_9f3ba71c',
+    ]))->toThrow(TypeError::class);
+});
+
+it('defaults claim_token to null when missing from the payload', function (): void {
+    $restored = MarketplaceUserReassignNotificationData::fromArray([
+        'demand_id' => 4321,
+        'action_url' => 'https://marketplace.example/demands/4321',
+    ]);
+
+    expect($restored->claim_token)->toBeNull();
+});
+
+it('reports the marketplace user-reassign notification type', function (): void {
+    $data = new MarketplaceUserReassignNotificationData(
+        demand_id: 4321,
+        action_url: 'https://marketplace.example/demands/4321',
+        claim_token: 'tok_9f3ba71c',
+    );
+
+    expect($data->notificationType())->toBe(NotificationType::MarketplaceUserReassignNotification);
+});

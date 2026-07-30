@@ -6,6 +6,8 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceAssignationActiva
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceDemandReceivedNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceNewChatMessageForCustomerNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceReviewRequestNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserReassignNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewChatMessageForProfessionalNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsTestNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\Source;
@@ -33,6 +35,22 @@ it('NotificationType::MarketplaceDemandReceivedNotification maps to Marketplace 
     expect($type->source())->toBe(Source::Marketplace);
     expect($type->slug())->toBe('marketplace-demand-received-notification');
     expect($type->dataClass())->toBe(MarketplaceDemandReceivedNotificationData::class);
+});
+
+it('NotificationType::ToolsNewChatMessageForProfessionalNotification maps to Tools source, its slug and data class', function (): void {
+    $type = NotificationType::ToolsNewChatMessageForProfessionalNotification;
+
+    expect($type->source())->toBe(Source::Tools);
+    expect($type->slug())->toBe('tools-new-chat-message-for-professional-notification');
+    expect($type->dataClass())->toBe(ToolsNewChatMessageForProfessionalNotificationData::class);
+});
+
+it('NotificationType::MarketplaceUserReassignNotification maps to Marketplace source, its slug and data class', function (): void {
+    $type = NotificationType::MarketplaceUserReassignNotification;
+
+    expect($type->source())->toBe(Source::Marketplace);
+    expect($type->slug())->toBe('marketplace-user-reassign-notification');
+    expect($type->dataClass())->toBe(MarketplaceUserReassignNotificationData::class);
 });
 
 it('NotificationType::MarketplaceAssignationActivationNotification maps to Marketplace source, its slug and data class', function (): void {

@@ -1,5 +1,16 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 0.10.0
+
+### Minor Changes
+
+- 4a542d7: Add ToolsNewChatMessageForProfessional notification type
+
+  - Add `ToolsNewChatMessageForProfessionalNotificationData` (EmailCapable) with `demand_id` and `demand_professional_id` integer fields
+  - Add `NotificationType::ToolsNewChatMessageForProfessionalNotification` enum case
+  - Wire the new case into `dataClass()`, mapping it to its data class
+  - Wire the new case into `source()`, mapping it to the Tools source
+
 ## 0.9.0
 
 ### Minor Changes
