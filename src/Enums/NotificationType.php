@@ -7,7 +7,9 @@ namespace Deegitalbe\TrustupIoNotificationsContracts\Enums;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\EmailCapable;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\PushCapable;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\SmsCapable;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceDemandReceivedNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceDemandTransmittedNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceNewChatMessageForCustomerNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceReviewRequestNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsFullLocaleTestNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandNotificationData;
@@ -27,6 +29,10 @@ enum NotificationType: string
 
     case MarketplaceDemandTransmittedNotification = 'marketplace.demand-transmitted.notification';
 
+    case MarketplaceDemandReceivedNotification = 'marketplace.demand-received.notification';
+
+    case MarketplaceNewChatMessageForCustomerNotification = 'marketplace.new-chat-message-for-customer.notification';
+
     /**
      * Dotless form of the value ("tools-test-notification"), safe to embed in a
      * dotted translation key or a provider template name.
@@ -43,7 +49,9 @@ enum NotificationType: string
             self::ToolsFullLocaleTestNotification => ToolsFullLocaleTestNotificationData::class,
             self::MarketplaceReviewRequestNotification => MarketplaceReviewRequestNotificationData::class,
             self::ToolsNewDemandNotification => ToolsNewDemandNotificationData::class,
-            self::MarketplaceDemandTransmittedNotification => MarketplaceDemandTransmittedNotificationData::class, // @phpstan-ignore-line
+            self::MarketplaceDemandTransmittedNotification => MarketplaceDemandTransmittedNotificationData::class,
+            self::MarketplaceDemandReceivedNotification => MarketplaceDemandReceivedNotificationData::class,
+            self::MarketplaceNewChatMessageForCustomerNotification => MarketplaceNewChatMessageForCustomerNotificationData::class, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no dataClass mapping."),
         };
     }
@@ -55,7 +63,9 @@ enum NotificationType: string
             self::ToolsFullLocaleTestNotification => Source::Tools,
             self::MarketplaceReviewRequestNotification => Source::Marketplace,
             self::ToolsNewDemandNotification => Source::Tools,
-            self::MarketplaceDemandTransmittedNotification => Source::Marketplace, // @phpstan-ignore-line
+            self::MarketplaceDemandTransmittedNotification => Source::Marketplace,
+            self::MarketplaceDemandReceivedNotification => Source::Marketplace,
+            self::MarketplaceNewChatMessageForCustomerNotification => Source::Marketplace, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no source mapping."),
         };
     }

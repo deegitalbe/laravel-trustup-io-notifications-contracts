@@ -1,5 +1,15 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 0.8.0
+
+### Minor Changes
+
+- 82b862b: Add marketplace new chat message notification data for customers
+
+  - Add `MarketplaceNewChatMessageForCustomerNotificationData` (EmailCapable) with `demand_id`, `legacy_conversation_id`, and optional `claim_token` fields
+  - Add `NotificationType::MarketplaceNewChatMessageForCustomerNotification` enum case
+  - Wire the new type into `dataClass()`, `source()` (Marketplace), and `supportedChannels()` (email only)
+
 ## 0.7.0
 
 ### Minor Changes
