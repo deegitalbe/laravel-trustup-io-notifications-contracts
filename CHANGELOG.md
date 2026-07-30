@@ -1,5 +1,15 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 0.11.0
+
+### Minor Changes
+
+- 75f994e: Add marketplace satisfaction survey notification contract
+
+  - Add `MarketplaceSatisfactionSurveyNotificationData`, a new `EmailCapable` notification data class carrying `demand_id` and `satisfaction_token`.
+  - Add the `MarketplaceSatisfactionSurveyNotification` case to `NotificationType`.
+  - Wire the new case into `dataClass()` and `source()` (resolves to `Source::Marketplace`).
+
 ## 0.10.0
 
 ### Minor Changes
