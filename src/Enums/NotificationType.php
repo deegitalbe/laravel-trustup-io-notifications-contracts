@@ -16,6 +16,7 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceSatisfactionSurve
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserReassignNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsFullLocaleTestNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewChatMessageForProfessionalNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandForProfessionalNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProResponseReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsTestNotificationData;
@@ -48,6 +49,8 @@ enum NotificationType: string
 
     case MarketplaceSatisfactionSurveyNotification = 'marketplace.satisfaction-survey.notification';
 
+    case ToolsNewDemandForProfessionalNotification = 'tools.new-demand-for-professional.notification';
+
     /**
      * Dotless form of the value ("tools-test-notification"), safe to embed in a
      * dotted translation key or a provider template name.
@@ -71,10 +74,11 @@ enum NotificationType: string
             self::MarketplaceAssignationActivationNotification => MarketplaceAssignationActivationNotificationData::class,
             self::MarketplaceNewChatMessageForCustomerNotification => MarketplaceNewChatMessageForCustomerNotificationData::class,
             self::ToolsProResponseReminderNotification => ToolsProResponseReminderNotificationData::class,
+            self::MarketplaceSatisfactionSurveyNotification => MarketplaceSatisfactionSurveyNotificationData::class,
             // PHPStan narrows $this to exactly this case once every other case is listed above, so it
             // flags this comparison as match.alwaysTrue; the `default => throw` arm is kept anyway as a
             // safety net for any future case added without a mapping, hence the ignore below.
-            self::MarketplaceSatisfactionSurveyNotification => MarketplaceSatisfactionSurveyNotificationData::class, // @phpstan-ignore-line
+            self::ToolsNewDemandForProfessionalNotification => ToolsNewDemandForProfessionalNotificationData::class, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no dataClass mapping."),
         };
     }
@@ -93,9 +97,10 @@ enum NotificationType: string
             self::MarketplaceAssignationActivationNotification => Source::Marketplace,
             self::MarketplaceNewChatMessageForCustomerNotification => Source::Marketplace,
             self::ToolsProResponseReminderNotification => Source::Tools,
+            self::MarketplaceSatisfactionSurveyNotification => Source::Marketplace,
             // Same match.alwaysTrue reasoning as in dataClass() above: PHPStan considers this last
             // case redundant, but the `default => throw` safety net justifies keeping it explicit.
-            self::MarketplaceSatisfactionSurveyNotification => Source::Marketplace, // @phpstan-ignore-line
+            self::ToolsNewDemandForProfessionalNotification => Source::Tools, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no source mapping."),
         };
     }

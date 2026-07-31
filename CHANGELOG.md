@@ -1,5 +1,18 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 0.12.0
+
+### Minor Changes
+
+- c875cbf: Add ToolsNewDemandForProfessionalNotification type
+
+  - Introduce `ToolsNewDemandForProfessionalNotificationData`, an email-capable
+    notification DTO carrying the demand, professional, workfield, city, title,
+    and description.
+  - Add the `ToolsNewDemandForProfessionalNotification` enum case, wired into
+    `dataClass()` and `source()` (Source::Tools).
+  - Notifies a professional that an incoming demand matches their profile.
+
 ## 0.11.0
 
 ### Minor Changes
