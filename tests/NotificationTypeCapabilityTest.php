@@ -62,6 +62,12 @@ it('supportedChannels() for MarketplaceDemandTransmittedNotification returns onl
     expect($channels)->toBe([NotificationChannel::Email]);
 });
 
+it('supportedChannels() for MarketplaceUserAssignmentNotification returns only email', function (): void {
+    $channels = NotificationType::MarketplaceUserAssignmentNotification->supportedChannels();
+
+    expect($channels)->toBe([NotificationChannel::Email]);
+});
+
 it('supportedChannels() for MarketplaceSatisfactionSurveyNotification returns only email', function (): void {
     $channels = NotificationType::MarketplaceSatisfactionSurveyNotification->supportedChannels();
 

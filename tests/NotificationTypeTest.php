@@ -7,6 +7,7 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceDemandReceivedNot
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceNewChatMessageForCustomerNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceReviewRequestNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceSatisfactionSurveyNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserAssignmentNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserReassignNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewChatMessageForProfessionalNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProResponseReminderNotificationData;
@@ -37,6 +38,14 @@ it('NotificationType::MarketplaceDemandReceivedNotification maps to Marketplace 
     expect($type->source())->toBe(Source::Marketplace);
     expect($type->slug())->toBe('marketplace-demand-received-notification');
     expect($type->dataClass())->toBe(MarketplaceDemandReceivedNotificationData::class);
+});
+
+it('NotificationType::MarketplaceUserAssignmentNotification maps to Marketplace source, its slug and data class', function (): void {
+    $type = NotificationType::MarketplaceUserAssignmentNotification;
+
+    expect($type->source())->toBe(Source::Marketplace);
+    expect($type->slug())->toBe('marketplace-user-assignment-notification');
+    expect($type->dataClass())->toBe(MarketplaceUserAssignmentNotificationData::class);
 });
 
 it('NotificationType::MarketplaceSatisfactionSurveyNotification maps to Marketplace source, its slug and data class', function (): void {

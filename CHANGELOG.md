@@ -1,5 +1,16 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 0.13.0
+
+### Minor Changes
+
+- 9b248a6: Add marketplace user-assignment notification type
+
+  - Add `MarketplaceUserAssignmentNotificationData` carrying `demand_id` and `professional_count`, email-capable
+  - Add `NotificationType::MarketplaceUserAssignmentNotification` enum case (`marketplace.user-assignment.notification`)
+  - Map the new type to `Source::Marketplace` and its dedicated data class
+  - Restrict supported channels for this type to email only
+
 ## 0.12.0
 
 ### Minor Changes
