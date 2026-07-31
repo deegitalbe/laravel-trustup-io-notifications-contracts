@@ -1,5 +1,15 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 0.14.0
+
+### Minor Changes
+
+- 0d91807: Add unclaimed demand reminder notification type
+
+  - Add `MarketplaceUnclaimedDemandReminderNotificationData` (EmailCapable)
+  - Add `NotificationType::MarketplaceUnclaimedDemandReminderNotification` enum case
+  - Wire the new case into `dataClass()` and `source()` resolution
+
 ## 0.13.0
 
 ### Minor Changes
