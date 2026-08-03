@@ -18,7 +18,7 @@ final readonly class MarketplaceAssignationActivationNotificationData implements
     public function __construct(
         public string $base_url,
         public int $demand_id,
-        public string $action_url,
+        public ?string $claim_token = null,
     ) {}
 
     public function notificationType(): NotificationType

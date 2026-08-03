@@ -19,6 +19,7 @@ final readonly class MarketplaceUserAssignmentNotificationData implements EmailC
         public string $base_url,
         public int $demand_id,
         public int $professional_count,
+        public ?string $claim_token = null,
     ) {}
 
     public function notificationType(): NotificationType

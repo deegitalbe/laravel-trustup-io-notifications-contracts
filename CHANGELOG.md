@@ -1,5 +1,16 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 2.0.0
+
+### Major Changes
+
+- 1f193ba: Adjust marketplace notification data fields following the base_url change
+
+  - `MarketplaceDemandReceivedNotificationData` gains a nullable `first_name` field.
+  - `MarketplaceUserAssignmentNotificationData` gains a nullable `claim_token` field.
+  - `MarketplaceAssignationActivationNotificationData` gains a nullable `claim_token` field, replacing the removed `action_url` field.
+  - Breaking: `action_url` is removed from `MarketplaceUserReassignNotificationData`; callers must rely on the existing nullable `claim_token` instead.
+
 ## 1.0.0
 
 ### Major Changes

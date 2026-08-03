@@ -18,7 +18,6 @@ final readonly class MarketplaceUserReassignNotificationData implements EmailCap
     public function __construct(
         public string $base_url,
         public int $demand_id,
-        public string $action_url,
         public ?string $claim_token = null,
     ) {}
 

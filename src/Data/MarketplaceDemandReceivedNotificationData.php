@@ -20,6 +20,7 @@ final readonly class MarketplaceDemandReceivedNotificationData implements EmailC
         public int $demand_id,
         public ?string $ai_session_id = null,
         public ?string $claim_token = null,
+        public ?string $first_name = null,
     ) {}
 
     public function notificationType(): NotificationType
