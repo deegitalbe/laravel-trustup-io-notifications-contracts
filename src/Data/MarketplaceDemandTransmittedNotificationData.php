@@ -16,6 +16,7 @@ final readonly class MarketplaceDemandTransmittedNotificationData implements Ema
     use SerializesFromConstructor;
 
     public function __construct(
+        public string $base_url,
         public string $first_name,
         public string $pro_name,
         public int $demand_id,

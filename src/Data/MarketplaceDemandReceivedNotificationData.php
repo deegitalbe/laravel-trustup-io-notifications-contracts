@@ -16,6 +16,7 @@ final readonly class MarketplaceDemandReceivedNotificationData implements EmailC
     use SerializesFromConstructor;
 
     public function __construct(
+        public string $base_url,
         public int $demand_id,
         public ?string $ai_session_id = null,
         public ?string $claim_token = null,

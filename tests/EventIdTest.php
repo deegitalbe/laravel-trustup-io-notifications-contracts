@@ -16,7 +16,7 @@ function makeRequestEnvelope(?string $eventId = null): Envelope
     $payload = new RequestPayload(
         type: NotificationType::ToolsTestNotification,
         recipient: Recipient::identified('ext-1', Source::Tools),
-        data: new ToolsTestNotificationData('Hello', 'World'),
+        data: new ToolsTestNotificationData('https://example.test', 'Hello', 'World'),
         channels: null,
     );
 
@@ -40,7 +40,7 @@ it('yields null event_id when the key is absent from the encoded array', functio
         'payload' => [
             'type' => 'tools.test.notification',
             'recipient' => ['source' => 'tools', 'external_user_id' => 'ext-1'],
-            'data' => ['title' => 'T', 'body' => 'B'],
+            'data' => ['base_url' => 'https://example.test', 'title' => 'T', 'body' => 'B'],
             'channels' => null,
         ],
     ];

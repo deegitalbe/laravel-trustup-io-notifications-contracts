@@ -7,7 +7,7 @@ use Deegitalbe\TrustupIoNotificationsContracts\Enums\EmailTemplateLocaleGranular
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 
 it('opts into full-locale granularity for its email template', function (): void {
-    $data = new ToolsFullLocaleTestNotificationData('Title', 'Body');
+    $data = new ToolsFullLocaleTestNotificationData('https://example.test', 'Title', 'Body');
 
     expect($data->emailTemplateLocaleGranularity())->toBe(EmailTemplateLocaleGranularity::Locale)
         ->and($data->notificationType())->toBe(NotificationType::ToolsFullLocaleTestNotification);

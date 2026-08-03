@@ -21,6 +21,7 @@ final readonly class ToolsFullLocaleTestNotificationData implements EmailCapable
     use SerializesFromConstructor;
 
     public function __construct(
+        public string $base_url,
         public string $title,
         public string $body,
     ) {}

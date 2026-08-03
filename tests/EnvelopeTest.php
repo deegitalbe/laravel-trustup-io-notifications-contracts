@@ -19,7 +19,7 @@ it('round-trips a request envelope via EnvelopeSerializer encode and decode', fu
     $payload = new RequestPayload(
         type: NotificationType::ToolsTestNotification,
         recipient: Recipient::identified('ext-1', Source::Tools),
-        data: new ToolsTestNotificationData('Hello', 'World'),
+        data: new ToolsTestNotificationData('https://example.test', 'Hello', 'World'),
         channels: [NotificationChannel::Email, NotificationChannel::Sms],
     );
     $envelope = new Envelope(Envelope::CURRENT_VERSION, EventDirection::Request, $payload);
@@ -40,7 +40,7 @@ it('round-trips a status envelope via EnvelopeSerializer encode and decode', fun
         channel: NotificationChannel::Email,
         status: NotificationStatus::Pending,
         type: NotificationType::ToolsTestNotification,
-        data: new ToolsTestNotificationData('Hello', 'World'),
+        data: new ToolsTestNotificationData('https://example.test', 'Hello', 'World'),
     );
     $envelope = new Envelope(Envelope::CURRENT_VERSION, EventDirection::Status, $payload);
 

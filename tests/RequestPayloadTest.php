@@ -15,7 +15,7 @@ it('builds request payload with type, recipient, data and channels', function ()
     $payload = new RequestPayload(
         type: NotificationType::ToolsTestNotification,
         recipient: Recipient::identified('ext-1', Source::Tools),
-        data: new ToolsTestNotificationData('Title', 'Body'),
+        data: new ToolsTestNotificationData('https://example.test', 'Title', 'Body'),
         channels: [NotificationChannel::Email, NotificationChannel::Sms],
     );
 
@@ -27,7 +27,7 @@ it('round-trips request payload with channels via toArray and fromArray', functi
     $original = new RequestPayload(
         type: NotificationType::ToolsTestNotification,
         recipient: Recipient::identified('ext-1', Source::Tools),
-        data: new ToolsTestNotificationData('Title', 'Body'),
+        data: new ToolsTestNotificationData('https://example.test', 'Title', 'Body'),
         channels: [NotificationChannel::Email, NotificationChannel::Sms],
     );
     $restored = RequestPayload::fromArray($original->toArray());
@@ -41,7 +41,7 @@ it('accepts null channels to mean all channels', function (): void {
     $payload = new RequestPayload(
         type: NotificationType::ToolsTestNotification,
         recipient: Recipient::identified('ext-1', Source::Tools),
-        data: new ToolsTestNotificationData('Title', 'Body'),
+        data: new ToolsTestNotificationData('https://example.test', 'Title', 'Body'),
         channels: null,
     );
 
@@ -52,7 +52,7 @@ it('throws InvalidEnvelopeException when channels is empty array', function (): 
     expect(fn () => new RequestPayload(
         type: NotificationType::ToolsTestNotification,
         recipient: Recipient::identified('ext-1', Source::Tools),
-        data: new ToolsTestNotificationData('Title', 'Body'),
+        data: new ToolsTestNotificationData('https://example.test', 'Title', 'Body'),
         channels: [],
     ))->toThrow(InvalidEnvelopeException::class);
 });
@@ -61,7 +61,7 @@ it('throws UnknownNotificationTypeException when type is unknown in fromArray', 
     $invalidData = [
         'type' => 'unknown.type',
         'recipient' => Recipient::identified('ext-1', Source::Tools)->toArray(),
-        'data' => ['title' => 'T', 'body' => 'B'],
+        'data' => ['base_url' => 'https://example.test', 'title' => 'T', 'body' => 'B'],
         'channels' => null,
     ];
 
@@ -73,7 +73,7 @@ it('throws InvalidEnvelopeException when channels is empty array in fromArray', 
     $invalidData = [
         'type' => NotificationType::ToolsTestNotification->value,
         'recipient' => Recipient::identified('ext-1', Source::Tools)->toArray(),
-        'data' => ['title' => 'T', 'body' => 'B'],
+        'data' => ['base_url' => 'https://example.test', 'title' => 'T', 'body' => 'B'],
         'channels' => [],
     ];
 

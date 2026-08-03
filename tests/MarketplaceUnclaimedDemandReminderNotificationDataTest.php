@@ -7,6 +7,7 @@ use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 
 it('builds MarketplaceUnclaimedDemandReminderNotificationData from its fields', function (): void {
     $data = new MarketplaceUnclaimedDemandReminderNotificationData(
+        base_url: 'https://example.test',
         demand_id: 4321,
         title: 'Renovation de salle de bain',
         workfield_label: 'Plomberie',
@@ -14,6 +15,7 @@ it('builds MarketplaceUnclaimedDemandReminderNotificationData from its fields', 
         claim_token: 'tok_9f3ba71c',
     );
 
+    expect($data->base_url)->toBe('https://example.test');
     expect($data->demand_id)->toBe(4321);
     expect($data->title)->toBe('Renovation de salle de bain');
     expect($data->workfield_label)->toBe('Plomberie');
@@ -23,6 +25,7 @@ it('builds MarketplaceUnclaimedDemandReminderNotificationData from its fields', 
 
 it('allows ai_session_id and claim_token to be null', function (): void {
     $data = new MarketplaceUnclaimedDemandReminderNotificationData(
+        base_url: 'https://example.test',
         demand_id: 4321,
         title: 'Renovation de salle de bain',
         workfield_label: 'Plomberie',
@@ -36,6 +39,7 @@ it('allows ai_session_id and claim_token to be null', function (): void {
 
 it('carries every field in the serialized payload', function (): void {
     $data = new MarketplaceUnclaimedDemandReminderNotificationData(
+        base_url: 'https://example.test',
         demand_id: 4321,
         title: 'Renovation de salle de bain',
         workfield_label: 'Plomberie',
@@ -44,6 +48,7 @@ it('carries every field in the serialized payload', function (): void {
     );
 
     expect($data->toArray())
+        ->toHaveKey('base_url', 'https://example.test')
         ->toHaveKey('demand_id', 4321)
         ->toHaveKey('title', 'Renovation de salle de bain')
         ->toHaveKey('workfield_label', 'Plomberie')
@@ -53,6 +58,7 @@ it('carries every field in the serialized payload', function (): void {
 
 it('round-trips MarketplaceUnclaimedDemandReminderNotificationData via toArray and fromArray', function (): void {
     $original = new MarketplaceUnclaimedDemandReminderNotificationData(
+        base_url: 'https://example.test',
         demand_id: 4321,
         title: 'Renovation de salle de bain',
         workfield_label: 'Plomberie',
@@ -62,6 +68,7 @@ it('round-trips MarketplaceUnclaimedDemandReminderNotificationData via toArray a
 
     $restored = MarketplaceUnclaimedDemandReminderNotificationData::fromArray($original->toArray());
 
+    expect($restored->base_url)->toBe($original->base_url);
     expect($restored->demand_id)->toBe($original->demand_id);
     expect($restored->title)->toBe($original->title);
     expect($restored->workfield_label)->toBe($original->workfield_label);
@@ -71,6 +78,7 @@ it('round-trips MarketplaceUnclaimedDemandReminderNotificationData via toArray a
 
 it('keeps demand_id an integer across a real JSON round-trip', function (): void {
     $original = new MarketplaceUnclaimedDemandReminderNotificationData(
+        base_url: 'https://example.test',
         demand_id: 4321,
         title: 'Renovation de salle de bain',
         workfield_label: 'Plomberie',
@@ -86,6 +94,7 @@ it('keeps demand_id an integer across a real JSON round-trip', function (): void
 
 it('rejects a demand_id that arrives as a numeric string rather than coercing it', function (): void {
     expect(fn () => MarketplaceUnclaimedDemandReminderNotificationData::fromArray([
+        'base_url' => 'https://example.test',
         'demand_id' => '4321',
         'title' => 'Renovation de salle de bain',
         'workfield_label' => 'Plomberie',
@@ -96,6 +105,7 @@ it('rejects a demand_id that arrives as a numeric string rather than coercing it
 
 it('defaults ai_session_id and claim_token to null when missing from the payload', function (): void {
     $restored = MarketplaceUnclaimedDemandReminderNotificationData::fromArray([
+        'base_url' => 'https://example.test',
         'demand_id' => 4321,
         'title' => 'Renovation de salle de bain',
         'workfield_label' => 'Plomberie',
@@ -107,6 +117,7 @@ it('defaults ai_session_id and claim_token to null when missing from the payload
 
 it('reports the marketplace unclaimed demand reminder notification type', function (): void {
     $data = new MarketplaceUnclaimedDemandReminderNotificationData(
+        base_url: 'https://example.test',
         demand_id: 4321,
         title: 'Renovation de salle de bain',
         workfield_label: 'Plomberie',

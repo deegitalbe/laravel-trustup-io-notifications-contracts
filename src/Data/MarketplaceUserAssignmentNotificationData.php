@@ -16,6 +16,7 @@ final readonly class MarketplaceUserAssignmentNotificationData implements EmailC
     use SerializesFromConstructor;
 
     public function __construct(
+        public string $base_url,
         public int $demand_id,
         public int $professional_count,
     ) {}

@@ -1,5 +1,14 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 1.0.0
+
+### Major Changes
+
+- 493c1b4: Require a base_url field on every notification data class
+
+  - Every `NotificationData` implementation in `src/Data/` now takes a required `base_url` constructor argument, letting email templates build absolute links.
+  - Breaking: existing callers constructing these classes directly, or calling their `fromArray()`, must now provide `base_url`.
+
 ## 0.14.0
 
 ### Minor Changes

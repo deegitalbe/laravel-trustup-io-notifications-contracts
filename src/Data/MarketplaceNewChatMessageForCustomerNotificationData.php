@@ -16,6 +16,7 @@ final readonly class MarketplaceNewChatMessageForCustomerNotificationData implem
     use SerializesFromConstructor;
 
     public function __construct(
+        public string $base_url,
         public int $demand_id,
         public string $legacy_conversation_id,
         public ?string $claim_token = null,

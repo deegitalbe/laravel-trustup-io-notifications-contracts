@@ -16,6 +16,7 @@ final readonly class ToolsNewDemandForProfessionalNotificationData implements Em
     use SerializesFromConstructor;
 
     public function __construct(
+        public string $base_url,
         public int $demand_id,
         public int $demand_professional_id,
         public string $workfield_slug,

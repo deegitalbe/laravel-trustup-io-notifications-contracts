@@ -16,6 +16,7 @@ final readonly class MarketplaceReviewRequestNotificationData implements EmailCa
     use SerializesFromConstructor;
 
     public function __construct(
+        public string $base_url,
         public string $first_name,
         public string $pro_name,
         public string $pro_slug,

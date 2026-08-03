@@ -16,6 +16,7 @@ final readonly class ToolsNewDemandNotificationData implements EmailCapable, Not
     use SerializesFromConstructor;
 
     public function __construct(
+        public string $base_url,
         public string $first_name,
         public string $workfield_name,
         public int $demand_professional_id,

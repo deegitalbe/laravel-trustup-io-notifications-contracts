@@ -7,12 +7,14 @@ use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 
 it('builds MarketplaceDemandTransmittedNotificationData from its fields', function (): void {
     $data = new MarketplaceDemandTransmittedNotificationData(
+        base_url: 'https://example.test',
         first_name: 'Marie',
         pro_name: 'Toiture Dubois',
         demand_id: 4321,
         claim_token: 'tok_9f3ba71c',
     );
 
+    expect($data->base_url)->toBe('https://example.test');
     expect($data->first_name)->toBe('Marie');
     expect($data->pro_name)->toBe('Toiture Dubois');
     expect($data->demand_id)->toBe(4321);
@@ -21,6 +23,7 @@ it('builds MarketplaceDemandTransmittedNotificationData from its fields', functi
 
 it('carries every field in the serialized payload', function (): void {
     $data = new MarketplaceDemandTransmittedNotificationData(
+        base_url: 'https://example.test',
         first_name: 'Marie',
         pro_name: 'Toiture Dubois',
         demand_id: 4321,
@@ -28,6 +31,7 @@ it('carries every field in the serialized payload', function (): void {
     );
 
     expect($data->toArray())
+        ->toHaveKey('base_url', 'https://example.test')
         ->toHaveKey('first_name', 'Marie')
         ->toHaveKey('pro_name', 'Toiture Dubois')
         ->toHaveKey('demand_id', 4321)
@@ -36,6 +40,7 @@ it('carries every field in the serialized payload', function (): void {
 
 it('no longer carries pro_slug, the CTA now targets the demand itself', function (): void {
     $data = new MarketplaceDemandTransmittedNotificationData(
+        base_url: 'https://example.test',
         first_name: 'Marie',
         pro_name: 'Toiture Dubois',
         demand_id: 4321,
@@ -47,6 +52,7 @@ it('no longer carries pro_slug, the CTA now targets the demand itself', function
 
 it('round-trips MarketplaceDemandTransmittedNotificationData via toArray and fromArray', function (): void {
     $original = new MarketplaceDemandTransmittedNotificationData(
+        base_url: 'https://example.test',
         first_name: 'Marie',
         pro_name: 'Toiture Dubois',
         demand_id: 4321,
@@ -55,6 +61,7 @@ it('round-trips MarketplaceDemandTransmittedNotificationData via toArray and fro
 
     $restored = MarketplaceDemandTransmittedNotificationData::fromArray($original->toArray());
 
+    expect($restored->base_url)->toBe($original->base_url);
     expect($restored->first_name)->toBe($original->first_name);
     expect($restored->pro_name)->toBe($original->pro_name);
     expect($restored->demand_id)->toBe($original->demand_id);
@@ -63,6 +70,7 @@ it('round-trips MarketplaceDemandTransmittedNotificationData via toArray and fro
 
 it('keeps demand_id an integer across a real JSON round-trip', function (): void {
     $original = new MarketplaceDemandTransmittedNotificationData(
+        base_url: 'https://example.test',
         first_name: 'Marie',
         pro_name: 'Toiture Dubois',
         demand_id: 4321,
@@ -77,6 +85,7 @@ it('keeps demand_id an integer across a real JSON round-trip', function (): void
 
 it('rejects a demand_id that arrives as a numeric string rather than coercing it', function (): void {
     expect(fn () => MarketplaceDemandTransmittedNotificationData::fromArray([
+        'base_url' => 'https://example.test',
         'first_name' => 'Marie',
         'pro_name' => 'Toiture Dubois',
         'demand_id' => '4321',
@@ -86,6 +95,7 @@ it('rejects a demand_id that arrives as a numeric string rather than coercing it
 
 it('reports the marketplace demand-transmitted notification type', function (): void {
     $data = new MarketplaceDemandTransmittedNotificationData(
+        base_url: 'https://example.test',
         first_name: 'Marie',
         pro_name: 'Toiture Dubois',
         demand_id: 4321,

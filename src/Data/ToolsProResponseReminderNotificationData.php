@@ -16,6 +16,7 @@ final readonly class ToolsProResponseReminderNotificationData implements EmailCa
     use SerializesFromConstructor;
 
     public function __construct(
+        public string $base_url,
         public int $demand_id,
         public int $demand_professional_id,
         public string $title,

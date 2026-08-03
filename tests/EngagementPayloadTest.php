@@ -20,7 +20,7 @@ function validEngagementArray(): array
         'channel' => 'email',
         'kind' => 'clicked',
         'type' => NotificationType::ToolsTestNotification->value,
-        'data' => ['title' => 'T', 'body' => 'B'],
+        'data' => ['base_url' => 'https://example.test', 'title' => 'T', 'body' => 'B'],
         'clicked_url' => 'https://example.com',
     ];
 }

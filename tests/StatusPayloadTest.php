@@ -16,7 +16,7 @@ it('builds status payload with all required fields', function (): void {
         channel: NotificationChannel::Email,
         status: NotificationStatus::Pending,
         type: NotificationType::ToolsTestNotification,
-        data: new ToolsTestNotificationData('Title', 'Body'),
+        data: new ToolsTestNotificationData('https://example.test', 'Title', 'Body'),
     );
 
     expect($payload->sendId)->toBe('send-abc-123');
@@ -30,7 +30,7 @@ it('round-trips status payload via toArray and fromArray', function (): void {
         channel: NotificationChannel::Email,
         status: NotificationStatus::Pending,
         type: NotificationType::ToolsTestNotification,
-        data: new ToolsTestNotificationData('Title', 'Body'),
+        data: new ToolsTestNotificationData('https://example.test', 'Title', 'Body'),
     );
     $restored = StatusPayload::fromArray($original->toArray());
 
@@ -47,7 +47,7 @@ it('throws InvalidEnvelopeException when status value is not in enum', function 
         'channel' => NotificationChannel::Email->value,
         'status' => 'unknown-status',
         'type' => NotificationType::ToolsTestNotification->value,
-        'data' => ['title' => 'T', 'body' => 'B'],
+        'data' => ['base_url' => 'https://example.test', 'title' => 'T', 'body' => 'B'],
     ];
 
     expect(fn () => StatusPayload::fromArray($invalidData))
@@ -60,7 +60,7 @@ it('throws InvalidEnvelopeException when channel value is not in enum in fromArr
         'channel' => 'unknown-channel',
         'status' => NotificationStatus::Pending->value,
         'type' => NotificationType::ToolsTestNotification->value,
-        'data' => ['title' => 'T', 'body' => 'B'],
+        'data' => ['base_url' => 'https://example.test', 'title' => 'T', 'body' => 'B'],
     ];
 
     expect(fn () => StatusPayload::fromArray($invalidData))
@@ -73,7 +73,7 @@ it('throws UnknownNotificationTypeException when type is unknown in status fromA
         'channel' => NotificationChannel::Email->value,
         'status' => NotificationStatus::Pending->value,
         'type' => 'unknown.type',
-        'data' => ['title' => 'T', 'body' => 'B'],
+        'data' => ['base_url' => 'https://example.test', 'title' => 'T', 'body' => 'B'],
     ];
 
     expect(fn () => StatusPayload::fromArray($invalidData))

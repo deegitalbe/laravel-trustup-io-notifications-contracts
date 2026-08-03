@@ -16,6 +16,7 @@ final readonly class MarketplaceAssignationActivationNotificationData implements
     use SerializesFromConstructor;
 
     public function __construct(
+        public string $base_url,
         public int $demand_id,
         public string $action_url,
     ) {}
