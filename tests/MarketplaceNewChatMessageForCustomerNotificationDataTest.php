@@ -10,20 +10,17 @@ it('builds MarketplaceNewChatMessageForCustomerNotificationData from its fields'
         base_url: 'https://example.test',
         demand_id: 4321,
         claim_token: 'tok_9f3ba71c',
-        legacy_conversation_id: '98765',
     );
 
     expect($data->base_url)->toBe('https://example.test');
     expect($data->demand_id)->toBe(4321);
     expect($data->claim_token)->toBe('tok_9f3ba71c');
-    expect($data->legacy_conversation_id)->toBe('98765');
 });
 
 it('allows claim_token to be null by default', function (): void {
     $data = new MarketplaceNewChatMessageForCustomerNotificationData(
         base_url: 'https://example.test',
         demand_id: 4321,
-        legacy_conversation_id: '98765',
     );
 
     expect($data->claim_token)->toBeNull();
@@ -34,14 +31,22 @@ it('carries every field in the serialized payload', function (): void {
         base_url: 'https://example.test',
         demand_id: 4321,
         claim_token: 'tok_9f3ba71c',
-        legacy_conversation_id: '98765',
     );
 
     expect($data->toArray())
         ->toHaveKey('base_url', 'https://example.test')
         ->toHaveKey('demand_id', 4321)
-        ->toHaveKey('claim_token', 'tok_9f3ba71c')
-        ->toHaveKey('legacy_conversation_id', '98765');
+        ->toHaveKey('claim_token', 'tok_9f3ba71c');
+});
+
+it('does not include legacy_conversation_id in the serialized payload', function (): void {
+    $data = new MarketplaceNewChatMessageForCustomerNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        claim_token: 'tok_9f3ba71c',
+    );
+
+    expect($data->toArray())->not->toHaveKey('legacy_conversation_id');
 });
 
 it('round-trips MarketplaceNewChatMessageForCustomerNotificationData via toArray and fromArray', function (): void {
@@ -49,7 +54,6 @@ it('round-trips MarketplaceNewChatMessageForCustomerNotificationData via toArray
         base_url: 'https://example.test',
         demand_id: 4321,
         claim_token: 'tok_9f3ba71c',
-        legacy_conversation_id: '98765',
     );
 
     $restored = MarketplaceNewChatMessageForCustomerNotificationData::fromArray($original->toArray());
@@ -57,7 +61,6 @@ it('round-trips MarketplaceNewChatMessageForCustomerNotificationData via toArray
     expect($restored->base_url)->toBe($original->base_url);
     expect($restored->demand_id)->toBe($original->demand_id);
     expect($restored->claim_token)->toBe($original->claim_token);
-    expect($restored->legacy_conversation_id)->toBe($original->legacy_conversation_id);
 });
 
 it('keeps demand_id an integer across a real JSON round-trip', function (): void {
@@ -65,7 +68,6 @@ it('keeps demand_id an integer across a real JSON round-trip', function (): void
         base_url: 'https://example.test',
         demand_id: 4321,
         claim_token: 'tok_9f3ba71c',
-        legacy_conversation_id: '98765',
     );
 
     $decoded = json_decode(json_encode($original->toArray()), true);
@@ -79,7 +81,6 @@ it('rejects a demand_id that arrives as a numeric string rather than coercing it
         'base_url' => 'https://example.test',
         'demand_id' => '4321',
         'claim_token' => 'tok_9f3ba71c',
-        'legacy_conversation_id' => '98765',
     ]))->toThrow(TypeError::class);
 });
 
@@ -87,10 +88,23 @@ it('defaults claim_token to null when missing from the payload', function (): vo
     $restored = MarketplaceNewChatMessageForCustomerNotificationData::fromArray([
         'base_url' => 'https://example.test',
         'demand_id' => 4321,
-        'legacy_conversation_id' => '98765',
     ]);
 
     expect($restored->claim_token)->toBeNull();
+});
+
+it('ignores a legacy legacy_conversation_id key still present in an incoming payload', function (): void {
+    $restored = MarketplaceNewChatMessageForCustomerNotificationData::fromArray([
+        'base_url' => 'https://example.test',
+        'demand_id' => 4321,
+        'claim_token' => 'tok_9f3ba71c',
+        'legacy_conversation_id' => '98765',
+    ]);
+
+    expect($restored->base_url)->toBe('https://example.test');
+    expect($restored->demand_id)->toBe(4321);
+    expect($restored->claim_token)->toBe('tok_9f3ba71c');
+    expect(property_exists($restored, 'legacy_conversation_id'))->toBeFalse();
 });
 
 it('reports the marketplace new-chat-message-for-customer notification type', function (): void {
@@ -98,7 +112,6 @@ it('reports the marketplace new-chat-message-for-customer notification type', fu
         base_url: 'https://example.test',
         demand_id: 4321,
         claim_token: 'tok_9f3ba71c',
-        legacy_conversation_id: '98765',
     );
 
     expect($data->notificationType())->toBe(NotificationType::MarketplaceNewChatMessageForCustomerNotification);

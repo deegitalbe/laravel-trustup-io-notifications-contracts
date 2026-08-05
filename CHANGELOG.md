@@ -1,5 +1,14 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.0.0
+
+### Major Changes
+
+- d74da23: Remove legacy_conversation_id from MarketplaceNewChatMessageForCustomerNotificationData
+
+  - Breaking: `legacy_conversation_id` is removed from the constructor of `MarketplaceNewChatMessageForCustomerNotificationData`; the new constructor signature is `base_url`, `demand_id`, `claim_token` (nullable). The field only made sense for migrated legacy conversations and is no longer structural data for the notification.
+  - `fromArray()` silently ignores a lingering `legacy_conversation_id` key in payloads produced by producers not yet updated, so no data migration is required.
+
 ## 2.0.0
 
 ### Major Changes

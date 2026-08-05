@@ -16,7 +16,7 @@ it('every NotificationType data class returns its own notificationType without e
         NotificationType::ToolsNewChatMessageForProfessionalNotification => ['https://example.test', 123, 4242],
         NotificationType::MarketplaceUserReassignNotification => ['https://example.test', 4321, 'claim-token'],
         NotificationType::MarketplaceAssignationActivationNotification => ['https://example.test', 4321, 'claim-token'],
-        NotificationType::MarketplaceNewChatMessageForCustomerNotification => ['https://example.test', 4321, '98765', 'claim-token'],
+        NotificationType::MarketplaceNewChatMessageForCustomerNotification => ['https://example.test', 4321, 'claim-token'],
         NotificationType::ToolsProResponseReminderNotification => ['https://example.test', 4321, 987, 'Demand Title'],
         NotificationType::MarketplaceSatisfactionSurveyNotification => ['https://example.test', 4321, 'satisfaction-token'],
         NotificationType::ToolsNewDemandForProfessionalNotification => ['https://example.test', 4321, 4242, 'toiture', null, 'Titre', 'Description'],
