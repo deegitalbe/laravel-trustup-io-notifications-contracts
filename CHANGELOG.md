@@ -1,5 +1,14 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.1.0
+
+### Minor Changes
+
+- c7e1031: Add ToolsNewDemandForProfessionalFreemiumNotification enum case and data class
+
+  - Add `NotificationType::ToolsNewDemandForProfessionalFreemiumNotification` enum case
+  - Add `ToolsNewDemandForProfessionalFreemiumNotificationData` class carrying the notification payload
+
 ## 3.0.0
 
 ### Major Changes

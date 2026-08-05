@@ -11,6 +11,7 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUnclaimedDemandRe
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserAssignmentNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserReassignNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewChatMessageForProfessionalNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandForProfessionalFreemiumNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProResponseReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsTestNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
@@ -104,4 +105,13 @@ it('NotificationType::MarketplaceNewChatMessageForCustomerNotification maps to M
     expect($type->source())->toBe(Source::Marketplace);
     expect($type->slug())->toBe('marketplace-new-chat-message-for-customer-notification');
     expect($type->dataClass())->toBe(MarketplaceNewChatMessageForCustomerNotificationData::class);
+});
+
+it('NotificationType::ToolsNewDemandForProfessionalFreemiumNotification maps to Tools source, its slug and data class', function (): void {
+    $type = NotificationType::ToolsNewDemandForProfessionalFreemiumNotification;
+
+    expect($type->value)->toBe('tools.new-demand-for-professional-freemium.notification');
+    expect($type->source())->toBe(Source::Tools);
+    expect($type->slug())->toBe('tools-new-demand-for-professional-freemium-notification');
+    expect($type->dataClass())->toBe(ToolsNewDemandForProfessionalFreemiumNotificationData::class);
 });

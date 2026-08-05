@@ -18,6 +18,7 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserAssignmentNot
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserReassignNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsFullLocaleTestNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewChatMessageForProfessionalNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandForProfessionalFreemiumNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandForProfessionalNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProResponseReminderNotificationData;
@@ -53,6 +54,8 @@ enum NotificationType: string
 
     case ToolsNewDemandForProfessionalNotification = 'tools.new-demand-for-professional.notification';
 
+    case ToolsNewDemandForProfessionalFreemiumNotification = 'tools.new-demand-for-professional-freemium.notification';
+
     case MarketplaceUserAssignmentNotification = 'marketplace.user-assignment.notification';
 
     case MarketplaceUnclaimedDemandReminderNotification = 'marketplace.unclaimed-demand-reminder.notification';
@@ -82,6 +85,7 @@ enum NotificationType: string
             self::ToolsProResponseReminderNotification => ToolsProResponseReminderNotificationData::class,
             self::MarketplaceSatisfactionSurveyNotification => MarketplaceSatisfactionSurveyNotificationData::class,
             self::ToolsNewDemandForProfessionalNotification => ToolsNewDemandForProfessionalNotificationData::class,
+            self::ToolsNewDemandForProfessionalFreemiumNotification => ToolsNewDemandForProfessionalFreemiumNotificationData::class,
             self::MarketplaceUserAssignmentNotification => MarketplaceUserAssignmentNotificationData::class,
             // PHPStan narrows $this to exactly this case once every other case is listed above, so it
             // flags this comparison as match.alwaysTrue; the `default => throw` arm is kept anyway as a
@@ -107,6 +111,7 @@ enum NotificationType: string
             self::ToolsProResponseReminderNotification => Source::Tools,
             self::MarketplaceSatisfactionSurveyNotification => Source::Marketplace,
             self::ToolsNewDemandForProfessionalNotification => Source::Tools,
+            self::ToolsNewDemandForProfessionalFreemiumNotification => Source::Tools,
             self::MarketplaceUserAssignmentNotification => Source::Marketplace,
             // Same match.alwaysTrue reasoning as in dataClass() above: PHPStan considers this last
             // case redundant, but the `default => throw` safety net justifies keeping it explicit.
