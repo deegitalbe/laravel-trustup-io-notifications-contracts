@@ -1,5 +1,15 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.3.0
+
+### Minor Changes
+
+- 2a16b5b: Own the Kafka transport options in the KafkaFactory
+
+  - The factory now sets the producer compression codec (default lz4), the producer message size cap (default 1MB, the Event Hubs limit) and the consumer offset reset (default latest) explicitly on the builder, read from the package's own config.
+  - These previously fell through to `mateusjunges/laravel-kafka`'s `config/kafka.php` defaults per host app, so two apps could diverge (e.g. one compressing snappy, another none). The factory is now the single source of truth for the notifications transport, independent of any host `config/kafka.php`.
+  - New env keys: `TRUSTUP_IO_NOTIFICATIONS_KAFKA_COMPRESSION`, `TRUSTUP_IO_NOTIFICATIONS_KAFKA_OFFSET_RESET`, `TRUSTUP_IO_NOTIFICATIONS_KAFKA_MESSAGE_MAX_BYTES`.
+
 ## 3.2.0
 
 ### Minor Changes

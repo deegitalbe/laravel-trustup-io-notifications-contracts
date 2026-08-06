@@ -13,17 +13,25 @@ class KafkaFactory
 {
     public function producer(): MessageProducer
     {
-        return $this->applySasl(Kafka::publish($this->brokers()));
+        return $this->applySasl(
+            Kafka::publish($this->brokers())
+                ->withConfigOption('compression.codec', config('trustup-io-notifications-contracts.kafka.compression'))
+                ->withConfigOption('message.max.bytes', (string) config('trustup-io-notifications-contracts.kafka.message_max_bytes'))
+        );
     }
 
     /** @param array<int, string> $topics */
     public function consumer(array $topics): ConsumerBuilder
     {
-        return $this->applySasl(Kafka::consumer(
-            topics: $topics,
-            groupId: config('trustup-io-notifications-contracts.kafka.consumer_group_id'),
-            brokers: $this->brokers(),
-        ));
+        return $this->applySasl(
+            Kafka::consumer(
+                topics: $topics,
+                groupId: config('trustup-io-notifications-contracts.kafka.consumer_group_id'),
+                brokers: $this->brokers(),
+            )->withOptions([
+                'auto.offset.reset' => config('trustup-io-notifications-contracts.kafka.offset_reset'),
+            ])
+        );
     }
 
     private function brokers(): ?string

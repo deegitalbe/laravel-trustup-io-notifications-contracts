@@ -16,6 +16,34 @@ function saslOf(object $builder): ?object
     return $property->getValue($builder);
 }
 
+/** @return array<string, mixed> */
+function optionsOf(object $builder): array
+{
+    $property = (new ReflectionObject($builder))->getProperty('options');
+
+    return $property->getValue($builder);
+}
+
+it('sets the configured compression codec and message size cap on the producer', function (): void {
+    config([
+        'trustup-io-notifications-contracts.kafka.compression' => 'lz4',
+        'trustup-io-notifications-contracts.kafka.message_max_bytes' => 1048576,
+    ]);
+
+    $options = optionsOf(app(KafkaFactory::class)->producer());
+
+    expect($options['compression.codec'])->toBe('lz4')
+        ->and($options['message.max.bytes'])->toBe('1048576');
+});
+
+it('sets the configured offset reset on the consumer', function (): void {
+    config(['trustup-io-notifications-contracts.kafka.offset_reset' => 'earliest']);
+
+    $options = optionsOf(app(KafkaFactory::class)->consumer(['some.topic']));
+
+    expect($options['auto.offset.reset'])->toBe('earliest');
+});
+
 it('builds a producer carrying the configured sasl credentials', function (): void {
     config([
         'trustup-io-notifications-contracts.kafka.brokers' => 'broker:9093',
