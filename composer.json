@@ -8,6 +8,7 @@
         "php": "^8.2",
         "ext-intl": "*",
         "illuminate/contracts": "^12.0",
+        "mateusjunges/laravel-kafka": "^2.11",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -25,6 +26,13 @@
     "autoload-dev": {
         "psr-4": {
             "Deegitalbe\\TrustupIoNotificationsContracts\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Deegitalbe\\TrustupIoNotificationsContracts\\TrustupIoNotificationsContractsServiceProvider"
+            ]
         }
     },
     "scripts": {

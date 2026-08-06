@@ -11,6 +11,8 @@ class TrustupIoNotificationsContractsServiceProvider extends PackageServiceProvi
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('trustup-io-notifications-contracts');
+        $package
+            ->name('trustup-io-notifications-contracts')
+            ->hasConfigFile('trustup-io-notifications-contracts');
     }
 }

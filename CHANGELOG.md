@@ -1,5 +1,15 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.2.0
+
+### Minor Changes
+
+- f4562d2: Own the Kafka connection layer in the contracts package
+
+  - Add a `KafkaFactory` that builds producers and consumers with SASL applied from the package's own config, so any host app (client or service) authenticates against SASL brokers (Azure Event Hubs) without wiring the transport itself.
+  - Publish a `trustup-io-notifications-contracts` config holding the Kafka connection (brokers, security protocol, SASL, consumer group id), the four topics, and the source, read from `TRUSTUP_IO_NOTIFICATIONS_*` env keys.
+  - Fail loud with `MissingKafkaCredentialsException` when the security protocol expects SASL but credentials are missing, instead of silently connecting unauthenticated.
+
 ## 3.1.0
 
 ### Minor Changes
