@@ -1,5 +1,22 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.4.0
+
+### Minor Changes
+
+- cc6ad4c: Add cometchat_group_guid and locale to MarketplaceNewChatMessageForCustomerNotificationData
+
+  - New `locale` (required) and `cometchat_group_guid` (nullable) constructor properties, so consumers can build a deep-link to the CometChat conversation (`/{locale}/espace-membre/messages?conversation={cometchat_group_guid}`).
+  - `locale` has no default, so any caller still using positional arguments for this DTO must be updated to pass it.
+
+## 3.3.1
+
+### Patch Changes
+
+- 0a8f555: Default Kafka compression to none instead of lz4
+
+  - Azure Event Hubs (Standard tier) silently rejects lz4-compressed produce requests, so any notification large enough to be compressed never reached the topic. The default is now `none`, which produces reliably across Event Hubs and Redpanda.
+
 ## 3.3.0
 
 ### Minor Changes

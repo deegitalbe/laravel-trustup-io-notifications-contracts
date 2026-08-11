@@ -26,13 +26,13 @@ function optionsOf(object $builder): array
 
 it('sets the configured compression codec and message size cap on the producer', function (): void {
     config([
-        'trustup-io-notifications-contracts.kafka.compression' => 'lz4',
+        'trustup-io-notifications-contracts.kafka.compression' => 'gzip',
         'trustup-io-notifications-contracts.kafka.message_max_bytes' => 1048576,
     ]);
 
     $options = optionsOf(app(KafkaFactory::class)->producer());
 
-    expect($options['compression.codec'])->toBe('lz4')
+    expect($options['compression.codec'])->toBe('gzip')
         ->and($options['message.max.bytes'])->toBe('1048576');
 });
 

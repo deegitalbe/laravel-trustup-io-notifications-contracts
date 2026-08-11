@@ -18,7 +18,9 @@ final readonly class MarketplaceNewChatMessageForCustomerNotificationData implem
     public function __construct(
         public string $base_url,
         public int $demand_id,
+        public string $locale,
         public ?string $claim_token = null,
+        public ?string $cometchat_group_guid = null,
     ) {}
 
     public function notificationType(): NotificationType
