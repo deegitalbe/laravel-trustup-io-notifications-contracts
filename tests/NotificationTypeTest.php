@@ -13,6 +13,7 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserReassignNotif
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewChatMessageForProfessionalNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandForProfessionalFreemiumNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProResponseReminderNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProSecondReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsTestNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\Source;
@@ -72,6 +73,14 @@ it('NotificationType::ToolsProResponseReminderNotification maps to Tools source,
     expect($type->source())->toBe(Source::Tools);
     expect($type->slug())->toBe('tools-pro-response-reminder-notification');
     expect($type->dataClass())->toBe(ToolsProResponseReminderNotificationData::class);
+});
+
+it('NotificationType::ToolsProSecondReminderNotification maps to Tools source, its slug and data class', function (): void {
+    $type = NotificationType::ToolsProSecondReminderNotification;
+
+    expect($type->source())->toBe(Source::Tools);
+    expect($type->slug())->toBe('tools-pro-second-reminder-notification');
+    expect($type->dataClass())->toBe(ToolsProSecondReminderNotificationData::class);
 });
 
 it('NotificationType::ToolsNewChatMessageForProfessionalNotification maps to Tools source, its slug and data class', function (): void {

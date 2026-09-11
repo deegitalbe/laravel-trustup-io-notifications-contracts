@@ -1,5 +1,14 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.5.0
+
+### Minor Changes
+
+- b23de44: Add the ToolsProSecondReminderNotification type for the second pro reminder
+
+  - Adds `ToolsProSecondReminderNotificationData`, mirroring `ToolsProResponseReminderNotificationData` with an extra nullable `city` field, transmitted raw (no PHP normalization)
+  - Registers `NotificationType::ToolsProSecondReminderNotification` (`tools.pro-second-reminder.notification`), mapped to its data class and to `Source::Tools`
+
 ## 3.4.0
 
 ### Minor Changes

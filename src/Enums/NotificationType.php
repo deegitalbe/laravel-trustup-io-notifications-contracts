@@ -22,6 +22,7 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandForProfessiona
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandForProfessionalNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProResponseReminderNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProSecondReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsTestNotificationData;
 use LogicException;
 
@@ -49,6 +50,8 @@ enum NotificationType: string
     case MarketplaceNewChatMessageForCustomerNotification = 'marketplace.new-chat-message-for-customer.notification';
 
     case ToolsProResponseReminderNotification = 'tools.pro-response-reminder.notification';
+
+    case ToolsProSecondReminderNotification = 'tools.pro-second-reminder.notification';
 
     case MarketplaceSatisfactionSurveyNotification = 'marketplace.satisfaction-survey.notification';
 
@@ -83,6 +86,7 @@ enum NotificationType: string
             self::MarketplaceAssignationActivationNotification => MarketplaceAssignationActivationNotificationData::class,
             self::MarketplaceNewChatMessageForCustomerNotification => MarketplaceNewChatMessageForCustomerNotificationData::class,
             self::ToolsProResponseReminderNotification => ToolsProResponseReminderNotificationData::class,
+            self::ToolsProSecondReminderNotification => ToolsProSecondReminderNotificationData::class,
             self::MarketplaceSatisfactionSurveyNotification => MarketplaceSatisfactionSurveyNotificationData::class,
             self::ToolsNewDemandForProfessionalNotification => ToolsNewDemandForProfessionalNotificationData::class,
             self::ToolsNewDemandForProfessionalFreemiumNotification => ToolsNewDemandForProfessionalFreemiumNotificationData::class,
@@ -109,6 +113,7 @@ enum NotificationType: string
             self::MarketplaceAssignationActivationNotification => Source::Marketplace,
             self::MarketplaceNewChatMessageForCustomerNotification => Source::Marketplace,
             self::ToolsProResponseReminderNotification => Source::Tools,
+            self::ToolsProSecondReminderNotification => Source::Tools,
             self::MarketplaceSatisfactionSurveyNotification => Source::Marketplace,
             self::ToolsNewDemandForProfessionalNotification => Source::Tools,
             self::ToolsNewDemandForProfessionalFreemiumNotification => Source::Tools,
