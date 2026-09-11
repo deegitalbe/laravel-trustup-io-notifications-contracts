@@ -21,10 +21,20 @@ final readonly class MarketplaceNewChatMessageForCustomerNotificationData implem
         public string $locale,
         public ?string $claim_token = null,
         public ?string $cometchat_group_guid = null,
+        public ?string $pro_name = null,
+        public ?string $pro_phone = null,
+        public ?string $pro_email = null,
+        public ?string $pro_logo = null,
     ) {}
 
     public function notificationType(): NotificationType
     {
         return NotificationType::MarketplaceNewChatMessageForCustomerNotification;
+    }
+
+    /** @return array<string, mixed> */
+    protected function emailVariables(): array
+    {
+        return [...$this->toArray(), 'has_pro_logo' => $this->pro_logo !== null];
     }
 }

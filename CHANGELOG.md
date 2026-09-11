@@ -1,5 +1,14 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.6.0
+
+### Minor Changes
+
+- b682c06: Add pro fields to marketplace demand-received and new-chat-message notification DTOs
+
+  - `MarketplaceDemandReceivedNotificationData` and `MarketplaceNewChatMessageForCustomerNotificationData` now accept nullable `pro_name`, `pro_phone`, `pro_email` and `pro_logo`
+  - `has_pro_logo` is derived automatically from `pro_logo` and exposed in the email template variables
+
 ## 3.5.0
 
 ### Minor Changes
