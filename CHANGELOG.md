@@ -1,5 +1,16 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.7.0
+
+### Minor Changes
+
+- 91ed9c1: Deliver push notifications to professionals for new demands, chat messages, and response reminders
+
+  - Sends the new-demand, new-chat-message, and response-reminder notifications by push to professionals with a registered device, in addition to email
+  - Tags every push payload with `notification_type` so the mobile app can route a tap to the right screen, ending the send in error if the type cannot be determined
+  - Coerces non-text accompanying values to text before handing them to the push provider, and ends the send in error on an unconvertible value or a rejected payload key instead of failing silently or exhausting retries
+  - Keeps the freemium new-demand notification email-only, since its recipients have no registered devices
+
 ## 3.6.0
 
 ### Minor Changes

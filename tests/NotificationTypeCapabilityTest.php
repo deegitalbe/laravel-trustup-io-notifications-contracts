@@ -50,10 +50,10 @@ it('supportedChannels() for MarketplaceReviewRequestNotification returns only em
     expect($channels)->toBe([NotificationChannel::Email]);
 });
 
-it('supportedChannels() for ToolsNewDemandNotification returns only email', function (): void {
+it('supportedChannels() for ToolsNewDemandNotification returns email and push', function (): void {
     $channels = NotificationType::ToolsNewDemandNotification->supportedChannels();
 
-    expect($channels)->toBe([NotificationChannel::Email]);
+    expect($channels)->toBe([NotificationChannel::Email, NotificationChannel::Push]);
 });
 
 it('supportedChannels() for MarketplaceDemandTransmittedNotification returns only email', function (): void {
@@ -74,10 +74,10 @@ it('supportedChannels() for MarketplaceSatisfactionSurveyNotification returns on
     expect($channels)->toBe([NotificationChannel::Email]);
 });
 
-it('supportedChannels() for ToolsNewChatMessageForProfessionalNotification returns only email', function (): void {
+it('supportedChannels() for ToolsNewChatMessageForProfessionalNotification returns email and push', function (): void {
     $channels = NotificationType::ToolsNewChatMessageForProfessionalNotification->supportedChannels();
 
-    expect($channels)->toBe([NotificationChannel::Email]);
+    expect($channels)->toBe([NotificationChannel::Email, NotificationChannel::Push]);
 });
 
 it('supportedChannels() for MarketplaceAssignationActivationNotification returns only email', function (): void {
@@ -88,6 +88,24 @@ it('supportedChannels() for MarketplaceAssignationActivationNotification returns
 
 it('supportedChannels() for MarketplaceNewChatMessageForCustomerNotification returns only email', function (): void {
     $channels = NotificationType::MarketplaceNewChatMessageForCustomerNotification->supportedChannels();
+
+    expect($channels)->toBe([NotificationChannel::Email]);
+});
+
+it('supportedChannels() for ToolsNewDemandForProfessionalNotification returns email and push', function (): void {
+    $channels = NotificationType::ToolsNewDemandForProfessionalNotification->supportedChannels();
+
+    expect($channels)->toBe([NotificationChannel::Email, NotificationChannel::Push]);
+});
+
+it('supportedChannels() for ToolsProResponseReminderNotification returns email and push', function (): void {
+    $channels = NotificationType::ToolsProResponseReminderNotification->supportedChannels();
+
+    expect($channels)->toBe([NotificationChannel::Email, NotificationChannel::Push]);
+});
+
+it('supportedChannels() for ToolsNewDemandForProfessionalFreemiumNotification returns only email', function (): void {
+    $channels = NotificationType::ToolsNewDemandForProfessionalFreemiumNotification->supportedChannels();
 
     expect($channels)->toBe([NotificationChannel::Email]);
 });
