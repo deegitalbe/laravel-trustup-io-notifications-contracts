@@ -109,3 +109,15 @@ it('supportedChannels() for ToolsNewDemandForProfessionalFreemiumNotification re
 
     expect($channels)->toBe([NotificationChannel::Email]);
 });
+
+it('supportedChannels() for WhitelabelDemandReceivedNotification returns only email', function (): void {
+    $channels = NotificationType::WhitelabelDemandReceivedNotification->supportedChannels();
+
+    expect($channels)->toBe([NotificationChannel::Email]);
+});
+
+it('supportedChannels() for WhitelabelNewChatMessageNotification returns only email', function (): void {
+    $channels = NotificationType::WhitelabelNewChatMessageNotification->supportedChannels();
+
+    expect($channels)->toBe([NotificationChannel::Email]);
+});

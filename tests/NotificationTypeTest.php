@@ -15,6 +15,8 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandForProfessiona
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProResponseReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProSecondReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsTestNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\WhitelabelDemandReceivedNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\WhitelabelNewChatMessageNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\Source;
 
@@ -123,4 +125,22 @@ it('NotificationType::ToolsNewDemandForProfessionalFreemiumNotification maps to 
     expect($type->source())->toBe(Source::Tools);
     expect($type->slug())->toBe('tools-new-demand-for-professional-freemium-notification');
     expect($type->dataClass())->toBe(ToolsNewDemandForProfessionalFreemiumNotificationData::class);
+});
+
+it('NotificationType::WhitelabelDemandReceivedNotification maps to Marketplace source, its slug and data class', function (): void {
+    $type = NotificationType::WhitelabelDemandReceivedNotification;
+
+    expect($type->value)->toBe('marketplace.whitelabel-demand-received.notification');
+    expect($type->source())->toBe(Source::Marketplace);
+    expect($type->slug())->toBe('marketplace-whitelabel-demand-received-notification');
+    expect($type->dataClass())->toBe(WhitelabelDemandReceivedNotificationData::class);
+});
+
+it('NotificationType::WhitelabelNewChatMessageNotification maps to Marketplace source, its slug and data class', function (): void {
+    $type = NotificationType::WhitelabelNewChatMessageNotification;
+
+    expect($type->value)->toBe('marketplace.whitelabel-new-chat-message.notification');
+    expect($type->source())->toBe(Source::Marketplace);
+    expect($type->slug())->toBe('marketplace-whitelabel-new-chat-message-notification');
+    expect($type->dataClass())->toBe(WhitelabelNewChatMessageNotificationData::class);
 });

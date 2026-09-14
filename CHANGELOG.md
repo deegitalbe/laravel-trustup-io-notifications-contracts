@@ -1,5 +1,16 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.8.0
+
+### Minor Changes
+
+- e5c4656: Add dedicated whitelabel notification types for the website demand flow, and remove pro identity fields from marketplace DTOs
+
+  - New `NotificationType::WhitelabelDemandReceivedNotification` and `WhitelabelNewChatMessageNotification`, backed by `WhitelabelDemandReceivedNotificationData` and `WhitelabelNewChatMessageNotificationData`
+  - These carry `pro_name`, `pro_phone`, `pro_email` and `pro_logo` (with `has_pro_logo` derived in `emailVariables()`), so a website demand can render the professional's identity instead of TrustUp's
+  - `MarketplaceDemandReceivedNotificationData` and `MarketplaceNewChatMessageForCustomerNotificationData` no longer carry these pro fields: the marketplace flow keeps the TrustUp identity and has no use for them
+  - A template can only be bound to one Postmark layout, so the marketplace and website flows now use separate `NotificationType` cases instead of sharing one data class for both identities
+
 ## 3.7.0
 
 ### Minor Changes

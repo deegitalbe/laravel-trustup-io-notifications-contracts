@@ -21,20 +21,10 @@ final readonly class MarketplaceDemandReceivedNotificationData implements EmailC
         public ?string $ai_session_id = null,
         public ?string $claim_token = null,
         public ?string $first_name = null,
-        public ?string $pro_name = null,
-        public ?string $pro_phone = null,
-        public ?string $pro_email = null,
-        public ?string $pro_logo = null,
     ) {}
 
     public function notificationType(): NotificationType
     {
         return NotificationType::MarketplaceDemandReceivedNotification;
-    }
-
-    /** @return array<string, mixed> */
-    protected function emailVariables(): array
-    {
-        return [...$this->toArray(), 'has_pro_logo' => $this->pro_logo !== null];
     }
 }

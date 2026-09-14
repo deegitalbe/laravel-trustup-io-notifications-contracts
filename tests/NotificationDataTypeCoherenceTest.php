@@ -24,6 +24,8 @@ it('every NotificationType data class returns its own notificationType without e
         NotificationType::ToolsNewDemandForProfessionalFreemiumNotification => ['https://example.test', 4321, 4242, 'toiture', null, 'Titre', 'Description', 987, 'claim-token'],
         NotificationType::MarketplaceUserAssignmentNotification => ['https://example.test', 4321, 3],
         NotificationType::MarketplaceUnclaimedDemandReminderNotification => ['https://example.test', 4321, 'Renovation de salle de bain', 'Plomberie'],
+        NotificationType::WhitelabelDemandReceivedNotification => ['https://example.test', 4321],
+        NotificationType::WhitelabelNewChatMessageNotification => ['https://example.test', 4321, 'fr', 'claim-token', 'cg-guid'],
         default => throw new LogicException("No minimal args defined for [{$type->value}] in coherence test."),
     };
 

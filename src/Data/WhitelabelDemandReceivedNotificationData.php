@@ -10,7 +10,7 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\Concerns\RendersEmail;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\Concerns\SerializesFromConstructor;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 
-final readonly class MarketplaceNewChatMessageForCustomerNotificationData implements EmailCapable, NotificationData
+final readonly class WhitelabelDemandReceivedNotificationData implements EmailCapable, NotificationData
 {
     use RendersEmail;
     use SerializesFromConstructor;
@@ -18,13 +18,23 @@ final readonly class MarketplaceNewChatMessageForCustomerNotificationData implem
     public function __construct(
         public string $base_url,
         public int $demand_id,
-        public string $locale,
+        public ?string $ai_session_id = null,
         public ?string $claim_token = null,
-        public ?string $cometchat_group_guid = null,
+        public ?string $first_name = null,
+        public ?string $pro_name = null,
+        public ?string $pro_phone = null,
+        public ?string $pro_email = null,
+        public ?string $pro_logo = null,
     ) {}
 
     public function notificationType(): NotificationType
     {
-        return NotificationType::MarketplaceNewChatMessageForCustomerNotification;
+        return NotificationType::WhitelabelDemandReceivedNotification;
+    }
+
+    /** @return array<string, mixed> */
+    protected function emailVariables(): array
+    {
+        return [...$this->toArray(), 'has_pro_logo' => $this->pro_logo !== null];
     }
 }
