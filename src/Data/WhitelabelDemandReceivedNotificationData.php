@@ -32,6 +32,11 @@ final readonly class WhitelabelDemandReceivedNotificationData implements EmailCa
         return NotificationType::WhitelabelDemandReceivedNotification;
     }
 
+    public function toEmail(): EmailContent
+    {
+        return new EmailContent($this->emailVariables(), senderName: $this->pro_name);
+    }
+
     /** @return array<string, mixed> */
     protected function emailVariables(): array
     {

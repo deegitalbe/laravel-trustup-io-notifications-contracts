@@ -1,5 +1,22 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.9.1
+
+### Patch Changes
+
+- bde4224: Wire pro_name into the email sender name for whitelabel notifications
+
+  `WhitelabelDemandReceivedNotificationData` and
+  `WhitelabelNewChatMessageNotificationData` are `final` and relied on the
+  default `RendersEmail` trait, which built `EmailContent` without the
+  `senderName` added in `3.9.0`. Since both classes are `final` and their
+  `emailVariables()` override point is `protected`, mkp-backend had no way to
+  supply it from outside the package.
+
+  Both classes now override `toEmail()` to pass their existing `pro_name`
+  property as `EmailContent::$senderName`. No new field and no constructor
+  change: `pro_name` was already there for the email template variables.
+
 ## 3.9.0
 
 ### Minor Changes

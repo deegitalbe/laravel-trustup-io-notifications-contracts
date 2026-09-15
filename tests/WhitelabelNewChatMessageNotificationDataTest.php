@@ -201,3 +201,24 @@ it('does not include has_pro_logo in the plain serialized payload', function ():
 
     expect($data->toArray())->not->toHaveKey('has_pro_logo');
 });
+
+it('uses pro_name as the email sender name when set', function (): void {
+    $data = new WhitelabelNewChatMessageNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        locale: 'fr',
+        pro_name: 'Toiture Martin',
+    );
+
+    expect($data->toEmail()->senderName)->toBe('Toiture Martin');
+});
+
+it('has a null email sender name when pro_name is null', function (): void {
+    $data = new WhitelabelNewChatMessageNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        locale: 'fr',
+    );
+
+    expect($data->toEmail()->senderName)->toBeNull();
+});
