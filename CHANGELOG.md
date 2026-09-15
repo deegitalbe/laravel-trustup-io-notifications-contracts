@@ -1,5 +1,27 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.9.0
+
+### Minor Changes
+
+- 4f45716: Add an optional sender display name to EmailContent
+
+  `EmailContent` gains an optional `senderName` field (`?string`, default `null`)
+  so a caller can request that an outgoing email display a name (e.g. a
+  professional's name) in the `From` header while the technical sender address
+  stays unchanged:
+
+  ```
+  De : A3D CONSTRUCT <noreply@trustup.be>
+  ```
+
+  Backward compatible: every existing `EmailCapable` implementation leaves this
+  field unset, which is identical to today's behavior. The service sanitizes
+  the value before using it (strips `<`, `>`, `"`, commas and line breaks to
+  prevent From-header injection, truncates to 78 characters) and falls back to
+  the plain configured address when nothing meaningful is left after
+  sanitization.
+
 ## 3.8.0
 
 ### Minor Changes

@@ -42,5 +42,12 @@ it('throws InvalidNotificationDataException when PushContent body is empty', fun
 it('creates EmailContent with a variables map', function (): void {
     $content = new EmailContent(['title' => 'Hello', 'body' => 'World']);
 
-    expect($content->variables)->toBe(['title' => 'Hello', 'body' => 'World']);
+    expect($content->variables)->toBe(['title' => 'Hello', 'body' => 'World'])
+        ->and($content->senderName)->toBeNull();
+});
+
+it('creates EmailContent with an optional sender name', function (): void {
+    $content = new EmailContent(['title' => 'Hello'], senderName: 'A3D CONSTRUCT');
+
+    expect($content->senderName)->toBe('A3D CONSTRUCT');
 });
