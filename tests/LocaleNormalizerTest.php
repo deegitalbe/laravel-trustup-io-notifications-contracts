@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Deegitalbe\TrustupIoNotificationsContracts\Support\LocaleNormalizer;
+use Locale;
 
 it('maps proprietary be-fr to fr-BE', function (): void {
     $normalizer = new LocaleNormalizer;
@@ -123,3 +124,35 @@ it('returns null for unknown zz-zz', function (): void {
 
     expect($normalizer->normalize('zz-zz'))->toBeNull();
 });
+
+it('maps proprietary nl-en to en-NL', function (): void {
+    $normalizer = new LocaleNormalizer;
+
+    expect($normalizer->normalize('nl-en'))->toBe('en-NL');
+});
+
+it('gives nl-en a region subtag that is a country and not a language', function (): void {
+    $normalizer = new LocaleNormalizer;
+
+    $canonical = $normalizer->normalize('nl-en');
+
+    expect($canonical)->not->toBe('nl-EN')
+        ->and(Locale::getRegion((string) $canonical))->toBe('NL')
+        ->and(Locale::getPrimaryLanguage((string) $canonical))->toBe('en');
+});
+
+it('reconciles every accepted country-language combination', function (string $raw, string $canonical): void {
+    $normalizer = new LocaleNormalizer;
+
+    expect($normalizer->normalize($raw))->toBe($canonical);
+})->with([
+    'netherlands english' => ['nl-en', 'en-NL'],
+    'france english' => ['fr-en', 'en-FR'],
+    'belgium french' => ['be-fr', 'fr-BE'],
+    'belgium dutch' => ['be-nl', 'nl-BE'],
+    'belgium english' => ['be-en', 'en-BE'],
+    'belgium german' => ['be-de', 'de-BE'],
+    'france french' => ['fr-fr', 'fr-FR'],
+    'netherlands dutch' => ['nl-nl', 'nl-NL'],
+    'english netherlands' => ['en-nl', 'en-NL'],
+]);

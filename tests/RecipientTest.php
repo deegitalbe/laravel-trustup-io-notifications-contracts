@@ -22,6 +22,13 @@ it('anonymous toArray includes canonical locale', function (): void {
     expect($recipient->toArray())->toHaveKey('locale', 'fr-BE');
 });
 
+it('anonymous in the netherlands reading english carries en-NL', function (): void {
+    $recipient = Recipient::anonymous('user@example.com', null, [], locale: 'nl-en');
+
+    expect($recipient->locale)->toBe('en-NL')
+        ->and($recipient->toArray())->toHaveKey('locale', 'en-NL');
+});
+
 it('anonymous throws InvalidRecipientException when locale is null', function (): void {
     expect(fn () => Recipient::anonymous('user@example.com', null, [], locale: null))
         ->toThrow(InvalidRecipientException::class);

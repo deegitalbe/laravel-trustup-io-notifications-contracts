@@ -1,5 +1,22 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.9.2
+
+### Patch Changes
+
+- 45ffba8: Reconcile the Netherlands/English combination to en-NL
+
+  `nl-en` was absent from `LocaleNormalizer::PROPRIETARY_MAP`, so it fell
+  through to the positional intl fallback, which read `nl` as the language and
+  `EN` as the region. `EN` is not a registered ISO 3166-1 region, so the
+  resulting `nl-EN` was not a valid BCP 47 tag: the notification was composed
+  in Dutch and sent from the Belgian sender identity instead of the Dutch one.
+
+  The map now carries `nl-en => en-NL`. `fr-fr`, `nl-nl` and `en-nl` were
+  removed at the same time: the fallback already reconciles them to the same
+  values, which the reconciliation matrix test pins. Every remaining entry is
+  one the fallback would otherwise get wrong.
+
 ## 3.9.1
 
 ### Patch Changes

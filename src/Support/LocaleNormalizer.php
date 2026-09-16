@@ -19,10 +19,8 @@ class LocaleNormalizer
         'be-nl' => 'nl-BE',
         'be-en' => 'en-BE',
         'be-de' => 'de-BE',
-        'fr-fr' => 'fr-FR',
-        'nl-nl' => 'nl-NL',
         'fr-en' => 'en-FR',
-        'en-nl' => 'en-NL',
+        'nl-en' => 'en-NL',
     ];
 
     public static function normalize(?string $raw): ?string
