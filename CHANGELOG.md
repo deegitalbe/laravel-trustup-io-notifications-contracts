@@ -1,5 +1,16 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.10.0
+
+### Minor Changes
+
+- c24d0f2: Deliver the first pro response reminder by email only
+
+  - Deliver the first pro response reminder by email only, never on registered devices.
+  - Offer email as the single channel for the first pro response reminder in the preference grid.
+  - Reject a device choice for the first pro response reminder on preference update (422).
+  - Ignore a device refusal stored earlier for the first pro response reminder, without error.
+
 ## 3.9.2
 
 ### Patch Changes

@@ -98,10 +98,10 @@ it('supportedChannels() for ToolsNewDemandForProfessionalNotification returns em
     expect($channels)->toBe([NotificationChannel::Email, NotificationChannel::Push]);
 });
 
-it('supportedChannels() for ToolsProResponseReminderNotification returns email and push', function (): void {
+it('supportedChannels() for ToolsProResponseReminderNotification returns only email', function (): void {
     $channels = NotificationType::ToolsProResponseReminderNotification->supportedChannels();
 
-    expect($channels)->toBe([NotificationChannel::Email, NotificationChannel::Push]);
+    expect($channels)->toBe([NotificationChannel::Email]);
 });
 
 it('supportedChannels() for ToolsNewDemandForProfessionalFreemiumNotification returns only email', function (): void {
