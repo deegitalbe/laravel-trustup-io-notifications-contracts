@@ -19,6 +19,15 @@ final readonly class MarketplaceUserReassignNotificationData implements EmailCap
         public string $base_url,
         public int $demand_id,
         public ?string $claim_token = null,
+        public ?string $workfield_label = null,
+        public ?string $city = null,
+        public ?string $demand_type = null,
+        public ?string $pro_name = null,
+        public ?string $conversation_url = null,
+        public ?string $demand_description = null,
+        public ?string $demand_cancel_url = null,
+        public ?string $demand_illustration_url = null,
+        public ?bool $is_direct = null,
     ) {}
 
     public function notificationType(): NotificationType

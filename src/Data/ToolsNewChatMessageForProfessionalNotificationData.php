@@ -22,6 +22,9 @@ final readonly class ToolsNewChatMessageForProfessionalNotificationData implemen
         public string $base_url,
         public int $demand_id,
         public int $demand_professional_id,
+        public ?string $first_name = null,
+        public ?string $workfield_label = null,
+        public ?string $city = null,
     ) {}
 
     public function notificationType(): NotificationType

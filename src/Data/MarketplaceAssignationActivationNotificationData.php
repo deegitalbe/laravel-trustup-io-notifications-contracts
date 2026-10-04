@@ -15,14 +15,44 @@ final readonly class MarketplaceAssignationActivationNotificationData implements
     use RendersEmail;
     use SerializesFromConstructor;
 
+    /**
+     * @param  array<int, array{name?: string|null, logo?: string|null, trust_score?: string|null, trust_score_label?: string|null, conversation_url?: string|null, select_url?: string|null, call_url?: string|null}>|null  $pros
+     */
     public function __construct(
         public string $base_url,
         public int $demand_id,
         public ?string $claim_token = null,
+        public ?array $pros = null,
+        public ?string $workfield_label = null,
+        public ?string $city = null,
+        public ?string $demand_type = null,
+        public ?string $demand_source = null,
+        public ?string $pro_name = null,
+        public ?string $pro_logo = null,
+        public ?string $pro_phone = null,
+        public ?string $pro_email = null,
+        public ?string $demand_description = null,
+        public ?string $demand_cancel_url = null,
+        public ?string $demand_illustration_url = null,
+        public ?bool $is_direct = null,
+        public ?bool $is_pro_website = null,
     ) {}
 
     public function notificationType(): NotificationType
     {
         return NotificationType::MarketplaceAssignationActivationNotification;
+    }
+
+    public function emailTemplate(): string
+    {
+        return $this->is_pro_website === true
+            ? 'marketplace-whitelabel-assignation-activation-notification'
+            : $this->notificationType()->slug();
+    }
+
+    /** @return array<string, mixed> */
+    protected function emailVariables(): array
+    {
+        return [...$this->toArray(), 'has_pro_logo' => ($this->pro_logo ?? '') !== ''];
     }
 }

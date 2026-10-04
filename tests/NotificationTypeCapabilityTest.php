@@ -121,3 +121,12 @@ it('supportedChannels() for WhitelabelNewChatMessageNotification returns only em
 
     expect($channels)->toBe([NotificationChannel::Email]);
 });
+
+it('supportedChannels() for each V3 marketplace type returns only email', function (NotificationType $type): void {
+    expect($type->supportedChannels())->toBe([NotificationChannel::Email]);
+})->with([
+    NotificationType::MarketplaceNewInterestedProsNotification,
+    NotificationType::MarketplaceAssignedProsReminderNotification,
+    NotificationType::MarketplacePlatformFeedbackNotification,
+    NotificationType::MarketplacePlatformFeedbackReminderNotification,
+]);

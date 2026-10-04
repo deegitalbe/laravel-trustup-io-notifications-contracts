@@ -144,3 +144,15 @@ it('NotificationType::WhitelabelNewChatMessageNotification maps to Marketplace s
     expect($type->slug())->toBe('marketplace-whitelabel-new-chat-message-notification');
     expect($type->dataClass())->toBe(WhitelabelNewChatMessageNotificationData::class);
 });
+
+it('maps each V3 marketplace type to Marketplace source, its slug and data class', function (NotificationType $type, string $value, string $slug, string $dataClass): void {
+    expect($type->value)->toBe($value);
+    expect($type->source())->toBe(Source::Marketplace);
+    expect($type->slug())->toBe($slug);
+    expect($type->dataClass())->toBe($dataClass);
+})->with([
+    'new interested pros' => [NotificationType::MarketplaceNewInterestedProsNotification, 'marketplace.new-interested-pros.notification', 'marketplace-new-interested-pros-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceNewInterestedProsNotificationData::class],
+    'assigned pros reminder' => [NotificationType::MarketplaceAssignedProsReminderNotification, 'marketplace.assigned-pros-reminder.notification', 'marketplace-assigned-pros-reminder-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceAssignedProsReminderNotificationData::class],
+    'platform feedback' => [NotificationType::MarketplacePlatformFeedbackNotification, 'marketplace.platform-feedback.notification', 'marketplace-platform-feedback-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplacePlatformFeedbackNotificationData::class],
+    'platform feedback reminder' => [NotificationType::MarketplacePlatformFeedbackReminderNotification, 'marketplace.platform-feedback-reminder.notification', 'marketplace-platform-feedback-reminder-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplacePlatformFeedbackReminderNotificationData::class],
+]);

@@ -25,6 +25,9 @@ final readonly class ToolsNewDemandForProfessionalFreemiumNotificationData imple
         public string $description,
         public int $temporary_tenant_id,
         public string $claim_token,
+        public ?string $demand_illustration_url = null,
+        public ?string $interested_url = null,
+        public ?string $declined_url = null,
     ) {}
 
     public function notificationType(): NotificationType

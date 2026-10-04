@@ -10,27 +10,23 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\Concerns\RendersEmail;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\Concerns\SerializesFromConstructor;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 
-final readonly class MarketplaceUserAssignmentNotificationData implements EmailCapable, NotificationData
+final readonly class MarketplacePlatformFeedbackNotificationData implements EmailCapable, NotificationData
 {
     use RendersEmail;
     use SerializesFromConstructor;
 
     /**
-     * @param  array<int, array{name?: string|null, logo?: string|null, trust_score?: string|null, trust_score_label?: string|null, conversation_url?: string|null, select_url?: string|null, call_url?: string|null}>|null  $pros
+     * @param  array<int, array{note: int, url: string}>|null  $rating_links
      */
     public function __construct(
         public string $base_url,
         public int $demand_id,
-        public int $professional_count,
-        public ?string $claim_token = null,
-        public ?array $pros = null,
-        public ?string $demand_description = null,
-        public ?string $demand_cancel_url = null,
-        public ?string $demand_illustration_url = null,
+        public ?string $first_name = null,
+        public ?array $rating_links = null,
     ) {}
 
     public function notificationType(): NotificationType
     {
-        return NotificationType::MarketplaceUserAssignmentNotification;
+        return NotificationType::MarketplacePlatformFeedbackNotification;
     }
 }

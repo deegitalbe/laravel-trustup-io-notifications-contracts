@@ -8,9 +8,13 @@ use Deegitalbe\TrustupIoNotificationsContracts\Contracts\EmailCapable;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\PushCapable;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\SmsCapable;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceAssignationActivationNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceAssignedProsReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceDemandReceivedNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceDemandTransmittedNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceNewChatMessageForCustomerNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceNewInterestedProsNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplacePlatformFeedbackNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplacePlatformFeedbackReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceReviewRequestNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceSatisfactionSurveyNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUnclaimedDemandReminderNotificationData;
@@ -69,6 +73,14 @@ enum NotificationType: string
 
     case WhitelabelNewChatMessageNotification = 'marketplace.whitelabel-new-chat-message.notification';
 
+    case MarketplaceNewInterestedProsNotification = 'marketplace.new-interested-pros.notification';
+
+    case MarketplaceAssignedProsReminderNotification = 'marketplace.assigned-pros-reminder.notification';
+
+    case MarketplacePlatformFeedbackNotification = 'marketplace.platform-feedback.notification';
+
+    case MarketplacePlatformFeedbackReminderNotification = 'marketplace.platform-feedback-reminder.notification';
+
     /**
      * Dotless form of the value ("tools-test-notification"), safe to embed in a
      * dotted translation key or a provider template name.
@@ -99,10 +111,14 @@ enum NotificationType: string
             self::MarketplaceUserAssignmentNotification => MarketplaceUserAssignmentNotificationData::class,
             self::MarketplaceUnclaimedDemandReminderNotification => MarketplaceUnclaimedDemandReminderNotificationData::class,
             self::WhitelabelDemandReceivedNotification => WhitelabelDemandReceivedNotificationData::class,
+            self::WhitelabelNewChatMessageNotification => WhitelabelNewChatMessageNotificationData::class,
+            self::MarketplaceNewInterestedProsNotification => MarketplaceNewInterestedProsNotificationData::class,
+            self::MarketplaceAssignedProsReminderNotification => MarketplaceAssignedProsReminderNotificationData::class,
+            self::MarketplacePlatformFeedbackNotification => MarketplacePlatformFeedbackNotificationData::class,
             // PHPStan narrows $this to exactly this case once every other case is listed above, so it
             // flags this comparison as match.alwaysTrue; the `default => throw` arm is kept anyway as a
             // safety net for any future case added without a mapping, hence the ignore below.
-            self::WhitelabelNewChatMessageNotification => WhitelabelNewChatMessageNotificationData::class, // @phpstan-ignore-line
+            self::MarketplacePlatformFeedbackReminderNotification => MarketplacePlatformFeedbackReminderNotificationData::class, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no dataClass mapping."),
         };
     }
@@ -128,9 +144,13 @@ enum NotificationType: string
             self::MarketplaceUserAssignmentNotification => Source::Marketplace,
             self::MarketplaceUnclaimedDemandReminderNotification => Source::Marketplace,
             self::WhitelabelDemandReceivedNotification => Source::Marketplace,
+            self::WhitelabelNewChatMessageNotification => Source::Marketplace,
+            self::MarketplaceNewInterestedProsNotification => Source::Marketplace,
+            self::MarketplaceAssignedProsReminderNotification => Source::Marketplace,
+            self::MarketplacePlatformFeedbackNotification => Source::Marketplace,
             // Same match.alwaysTrue reasoning as in dataClass() above: PHPStan considers this last
             // case redundant, but the `default => throw` safety net justifies keeping it explicit.
-            self::WhitelabelNewChatMessageNotification => Source::Marketplace, // @phpstan-ignore-line
+            self::MarketplacePlatformFeedbackReminderNotification => Source::Marketplace, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no source mapping."),
         };
     }

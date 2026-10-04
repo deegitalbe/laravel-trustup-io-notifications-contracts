@@ -1,5 +1,18 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.11.0
+
+### Minor Changes
+
+- fbce72e: Add the V3 email fields and four notification types
+
+  - Add nullable constructor fields to 13 email `*NotificationData` classes (demand card, interested and declined links, pro list, rating links, location, pro contact). A payload without the new keys still deserializes.
+  - Keep existing parameters unchanged (name, type, order).
+  - Add `is_direct` and `is_pro_website` next to `demand_type` and `demand_source`, because Mustachio cannot compare strings.
+  - Target the whitelabel Postmark alias from `emailTemplate()` when `is_pro_website` is true, for the unclaimed demand reminder and the assignation activation.
+  - Expose `has_pro_logo` in the email variables of the unclaimed demand reminder and the assignation activation (true when `pro_logo` is not empty), as the whitelabel layout reads it.
+  - Add `marketplace.new-interested-pros`, `marketplace.assigned-pros-reminder`, `marketplace.platform-feedback` and `marketplace.platform-feedback-reminder`, all email only.
+
 ## 3.10.0
 
 ### Minor Changes
