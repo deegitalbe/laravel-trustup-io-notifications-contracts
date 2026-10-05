@@ -136,22 +136,20 @@ it('round-trips the V3 keys through a real JSON encode and decode', function (st
     expect($restored->toArray())->toBe($original->toArray());
 })->with('v3 data classes');
 
-it('targets the whitelabel Postmark alias only when the demand comes from the pro website', function (string $class, array $legacy, string $default, string $whitelabel): void {
+it('keeps the default Postmark template whatever the demand source, the whitelabel variant is picked by the service', function (string $class, array $legacy, string $default): void {
     expect($class::fromArray($legacy)->emailTemplate())->toBe($default);
     expect($class::fromArray($legacy + ['is_pro_website' => false])->emailTemplate())->toBe($default);
-    expect($class::fromArray($legacy + ['is_pro_website' => true])->emailTemplate())->toBe($whitelabel);
+    expect($class::fromArray($legacy + ['is_pro_website' => true])->emailTemplate())->toBe($default);
 })->with([
     'unclaimed demand reminder' => [
         MarketplaceUnclaimedDemandReminderNotificationData::class,
         ['base_url' => 'https://example.test', 'demand_id' => 1, 'title' => 'T', 'workfield_label' => 'Toiture'],
         'marketplace-unclaimed-demand-reminder-notification',
-        'marketplace-whitelabel-unclaimed-demand-reminder-notification',
     ],
     'assignation activation' => [
         MarketplaceAssignationActivationNotificationData::class,
         ['base_url' => 'https://example.test', 'demand_id' => 1],
         'marketplace-assignation-activation-notification',
-        'marketplace-whitelabel-assignation-activation-notification',
     ],
 ]);
 

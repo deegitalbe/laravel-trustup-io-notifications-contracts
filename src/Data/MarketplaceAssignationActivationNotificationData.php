@@ -43,13 +43,6 @@ final readonly class MarketplaceAssignationActivationNotificationData implements
         return NotificationType::MarketplaceAssignationActivationNotification;
     }
 
-    public function emailTemplate(): string
-    {
-        return $this->is_pro_website === true
-            ? 'marketplace-whitelabel-assignation-activation-notification'
-            : $this->notificationType()->slug();
-    }
-
     /** @return array<string, mixed> */
     protected function emailVariables(): array
     {

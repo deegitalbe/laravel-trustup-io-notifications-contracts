@@ -1,5 +1,13 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.11.1
+
+### Patch Changes
+
+- f7bdc11: Stop choosing the whitelabel template in the data classes
+
+  `MarketplaceUnclaimedDemandReminderNotificationData` and `MarketplaceAssignationActivationNotificationData` no longer override `emailTemplate()`: it returns the type slug whatever `is_pro_website` says. The service picks the whitelabel variant once the type is pinned to v3. `is_pro_website` stays in the payload.
+
 ## 3.11.0
 
 ### Minor Changes
