@@ -33,7 +33,11 @@ it('round-trips an EngagementPayload through toArray and fromArray', function ()
         ->and($payload->kind)->toBe(ChannelEventKind::Clicked)
         ->and($payload->type)->toBe(NotificationType::ToolsTestNotification)
         ->and($payload->clickedUrl)->toBe('https://example.com')
-        ->and($payload->toArray())->toBe(validEngagementArray());
+        ->and($payload->toArray())->toBe(validEngagementArray() + [
+            'event_id' => null,
+            'send_event_id' => null,
+            'occurred_at' => null,
+        ]);
 });
 
 it('defaults clicked_url to null when absent', function (): void {
@@ -76,5 +80,40 @@ it('is decoded by EnvelopeSerializer for the engagement direction', function ():
 
     expect($envelope->direction)->toBe(EventDirection::Engagement)
         ->and($envelope->payload)->toBeInstanceOf(EngagementPayload::class)
-        ->and($serializer->encode($envelope)['payload'])->toBe(validEngagementArray());
+        ->and($serializer->encode($envelope)['payload'])->toBe(validEngagementArray() + [
+            'event_id' => null,
+            'send_event_id' => null,
+            'occurred_at' => null,
+        ]);
+});
+
+it('defaults the correlation fields to null when absent', function (): void {
+    $payload = EngagementPayload::fromArray(validEngagementArray());
+
+    expect($payload->eventId)->toBeNull()
+        ->and($payload->sendEventId)->toBeNull()
+        ->and($payload->occurredAt)->toBeNull();
+});
+
+it('serializes absent correlation fields as null', function (): void {
+    expect(EngagementPayload::fromArray(validEngagementArray())->toArray())->toMatchArray([
+        'event_id' => null,
+        'send_event_id' => null,
+        'occurred_at' => null,
+    ]);
+});
+
+it('round-trips the correlation fields through toArray and fromArray', function (): void {
+    $data = validEngagementArray() + [
+        'event_id' => 'evt-1',
+        'send_event_id' => '42',
+        'occurred_at' => '2026-08-21T10:00:00+00:00',
+    ];
+
+    $payload = EngagementPayload::fromArray($data);
+
+    expect($payload->eventId)->toBe('evt-1')
+        ->and($payload->sendEventId)->toBe('42')
+        ->and($payload->occurredAt)->toBe('2026-08-21T10:00:00+00:00')
+        ->and($payload->toArray())->toBe($data);
 });

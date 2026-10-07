@@ -1,5 +1,15 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.12.0
+
+### Minor Changes
+
+- 9b014a8: Add event correlation fields to the status and engagement payloads
+
+  - `StatusPayload` gains nullable `event_id`, `send_event_id`, `occurred_at`, `kind` and `failure_reason`.
+  - `EngagementPayload` gains nullable `event_id`, `send_event_id` and `occurred_at`.
+  - A message produced by an older service version still deserializes: missing keys and an unknown `kind` become `null`.
+
 ## 3.11.1
 
 ### Patch Changes

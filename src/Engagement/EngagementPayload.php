@@ -21,6 +21,9 @@ final readonly class EngagementPayload implements Serializable
         public NotificationType $type,
         public NotificationData $data,
         public ?string $clickedUrl,
+        public ?string $eventId = null,
+        public ?string $sendEventId = null,
+        public ?string $occurredAt = null,
     ) {}
 
     /** @return array<string, mixed> */
@@ -33,6 +36,9 @@ final readonly class EngagementPayload implements Serializable
             'type' => $this->type->value,
             'data' => $this->data->toArray(),
             'clicked_url' => $this->clickedUrl,
+            'event_id' => $this->eventId,
+            'send_event_id' => $this->sendEventId,
+            'occurred_at' => $this->occurredAt,
         ];
     }
 
@@ -69,6 +75,9 @@ final readonly class EngagementPayload implements Serializable
             type: $type,
             data: $notificationData,
             clickedUrl: isset($data['clicked_url']) ? (string) $data['clicked_url'] : null,
+            eventId: isset($data['event_id']) ? (string) $data['event_id'] : null,
+            sendEventId: isset($data['send_event_id']) ? (string) $data['send_event_id'] : null,
+            occurredAt: isset($data['occurred_at']) ? (string) $data['occurred_at'] : null,
         );
     }
 }

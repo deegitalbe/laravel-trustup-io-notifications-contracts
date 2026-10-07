@@ -279,6 +279,11 @@ You rarely build these directly (the client package does), but you read `StatusP
   public NotificationStatus $status;     // pending|sent|delivered|error
   public NotificationType $type;
   public NotificationData $data;
+  public ?string $eventId;               // event_id of the originating request, null when it had none
+  public ?string $sendEventId;           // id of the stored event behind this message
+  public ?string $occurredAt;            // ISO 8601, when the event occurred
+  public ?ChannelEventKind $kind;        // provider event kind, null for lifecycle statuses
+  public ?string $failureReason;         // provider or send level failure reason
   ```
 - `EngagementPayload` — engagement feedback:
   ```php
@@ -288,7 +293,24 @@ You rarely build these directly (the client package does), but you read `StatusP
   public NotificationType $type;
   public NotificationData $data;
   public ?string $clickedUrl;
+  public ?string $eventId;               // same meaning as on StatusPayload
+  public ?string $sendEventId;
+  public ?string $occurredAt;            // ISO 8601
   ```
+
+### Correlation fields
+
+| Field | Payloads | Nullable | When absent or unknown |
+|---|---|---|---|
+| `event_id` | status, engagement | yes | `null` |
+| `send_event_id` | status, engagement | yes | `null` |
+| `occurred_at` | status, engagement | yes | `null` |
+| `kind` | status | yes | `null`, also for an unknown value (no exception) |
+| `failure_reason` | status | yes | `null` |
+
+- The five fields are backward compatible: a message produced before they existed still decodes, with the fields set to `null`.
+- The fields are generic and never name a source application. Application specific identifiers stay in `data`.
+- The service publishes one status message per stored channel event, even when the event does not change the canonical status (a spam complaint after a bounce, a second `delivered`). Use `send_event_id` to deduplicate.
 
 ## Locale helpers
 
