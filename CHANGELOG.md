@@ -1,5 +1,17 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.14.0
+
+### Minor Changes
+
+- fc11506: Add optional pro count, workfield, city and single professional keys to the Revamp V3 pro list emails
+
+  - Accept nullable `professional_count`, `workfield_label`, `city` and `single_professional` as the last constructor parameters of `MarketplaceNewInterestedProsNotificationData` and `MarketplaceAssignedProsReminderNotificationData`.
+  - Accept a nullable `single_professional` as the last constructor parameter of `MarketplaceUserAssignmentNotificationData`. It is true only when exactly one professional is selected, so a missing key keeps the plural wording in the templates.
+  - Hand the new keys to the email template variables as received, so the templates can display them.
+  - Keep existing senders and older payloads working: a missing key deserializes to `null`.
+  <!-- release-note: impact=internal linear=TDD-5618 -->
+
 ## 3.13.0
 
 ### Minor Changes

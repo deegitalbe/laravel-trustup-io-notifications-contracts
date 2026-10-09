@@ -113,3 +113,50 @@ it('reports the marketplace user-assignment notification type', function (): voi
 
     expect($data->notificationType())->toBe(NotificationType::MarketplaceUserAssignmentNotification);
 });
+
+it('defaults single_professional to null when missing from the payload', function (): void {
+    $restored = MarketplaceUserAssignmentNotificationData::fromArray([
+        'base_url' => 'https://example.test',
+        'demand_id' => 4321,
+        'professional_count' => 3,
+    ]);
+
+    expect($restored->single_professional)->toBeNull();
+});
+
+it('hands single_professional unchanged to the email template variables', function (): void {
+    $single = new MarketplaceUserAssignmentNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        professional_count: 1,
+        single_professional: true,
+    );
+    $several = new MarketplaceUserAssignmentNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        professional_count: 3,
+        single_professional: false,
+    );
+    $unspecified = new MarketplaceUserAssignmentNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        professional_count: 3,
+    );
+
+    expect($single->toEmail()->variables)->toHaveKey('single_professional', true);
+    expect($several->toEmail()->variables)->toHaveKey('single_professional', false);
+    expect($unspecified->toEmail()->variables)->toHaveKey('single_professional', null);
+});
+
+it('keeps single_professional as a boolean across a real JSON round-trip', function (): void {
+    $original = new MarketplaceUserAssignmentNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        professional_count: 1,
+        single_professional: true,
+    );
+
+    $restored = MarketplaceUserAssignmentNotificationData::fromArray(json_decode(json_encode($original->toArray()), true));
+
+    expect($restored->single_professional)->toBeTrue();
+});

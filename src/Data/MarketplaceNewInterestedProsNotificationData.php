@@ -26,6 +26,10 @@ final readonly class MarketplaceNewInterestedProsNotificationData implements Ema
         public ?string $demand_description = null,
         public ?string $demand_cancel_url = null,
         public ?string $demand_illustration_url = null,
+        public ?int $professional_count = null,
+        public ?string $workfield_label = null,
+        public ?string $city = null,
+        public ?bool $single_professional = null,
     ) {}
 
     public function notificationType(): NotificationType
