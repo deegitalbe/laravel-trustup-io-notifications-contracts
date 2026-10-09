@@ -1,5 +1,16 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.13.0
+
+### Minor Changes
+
+- 8b14f31: Add an optional description to the first and second pro reminders
+
+  - Accept a nullable `description` as the last constructor parameter of `ToolsProResponseReminderNotificationData` and `ToolsProSecondReminderNotificationData`, kept unchanged in the serialized payload.
+  - Hand the description to the email template variables as received, so the template can display it.
+  - Keep existing senders and older payloads working: a missing `description` key deserializes to `null`.
+  <!-- release-note: impact=internal linear=TDD-5607 -->
+
 ## 3.12.0
 
 ### Minor Changes

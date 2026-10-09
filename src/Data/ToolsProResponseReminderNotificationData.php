@@ -27,6 +27,7 @@ final readonly class ToolsProResponseReminderNotificationData implements EmailCa
         public ?string $interested_url = null,
         public ?string $declined_url = null,
         public ?bool $is_direct = null,
+        public ?string $description = null,
     ) {}
 
     public function notificationType(): NotificationType

@@ -128,3 +128,99 @@ it('reports the tools pro-second-reminder notification type', function (): void 
 
     expect($data->notificationType())->toBe(NotificationType::ToolsProSecondReminderNotification);
 });
+
+it('keeps the description given to ToolsProSecondReminderNotificationData', function (): void {
+    $data = new ToolsProSecondReminderNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        demand_professional_id: 987,
+        title: 'Fuite d\'eau urgente',
+        description: 'Fuite sous l\'évier de la cuisine',
+    );
+
+    expect($data->description)->toBe('Fuite sous l\'évier de la cuisine');
+});
+
+it('defaults the description of ToolsProSecondReminderNotificationData to null when omitted', function (): void {
+    $data = new ToolsProSecondReminderNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        demand_professional_id: 987,
+        title: 'Fuite d\'eau urgente',
+    );
+
+    expect($data->description)->toBeNull();
+});
+
+it('carries the description in the serialized payload of ToolsProSecondReminderNotificationData', function (): void {
+    $data = new ToolsProSecondReminderNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        demand_professional_id: 987,
+        title: 'Fuite d\'eau urgente',
+        description: 'Fuite sous l\'évier de la cuisine',
+    );
+
+    expect($data->toArray())->toHaveKey('description', 'Fuite sous l\'évier de la cuisine');
+});
+
+it('round-trips a second reminder description with accents, line breaks and markup characters unchanged', function (): void {
+    $description = "Fuite sous l'évier\n<b>urgent</b> & \"réparation\" à Liège";
+    $original = new ToolsProSecondReminderNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        demand_professional_id: 987,
+        title: 'Fuite d\'eau urgente',
+        description: $description,
+    );
+
+    $restored = ToolsProSecondReminderNotificationData::fromArray(
+        json_decode(json_encode($original->toArray()), true),
+    );
+
+    expect($restored->description)->toBe($description);
+});
+
+it('accepts an old ToolsProSecondReminderNotificationData payload without description', function (): void {
+    $restored = ToolsProSecondReminderNotificationData::fromArray([
+        'base_url' => 'https://example.test',
+        'demand_id' => 4321,
+        'demand_professional_id' => 987,
+        'title' => 'Fuite d\'eau urgente',
+    ]);
+
+    expect($restored->description)->toBeNull();
+});
+
+it('keeps an empty second reminder description as an empty string across a round-trip', function (): void {
+    $original = new ToolsProSecondReminderNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        demand_professional_id: 987,
+        title: 'Fuite d\'eau urgente',
+        description: '',
+    );
+
+    $restored = ToolsProSecondReminderNotificationData::fromArray($original->toArray());
+
+    expect($restored->description)->toBe('');
+});
+
+it('hands the description unchanged to the email template variables of ToolsProSecondReminderNotificationData', function (): void {
+    $withDescription = new ToolsProSecondReminderNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        demand_professional_id: 987,
+        title: 'Fuite d\'eau urgente',
+        description: 'Fuite sous l\'évier de la cuisine',
+    );
+    $withoutDescription = new ToolsProSecondReminderNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        demand_professional_id: 987,
+        title: 'Fuite d\'eau urgente',
+    );
+
+    expect($withDescription->toEmail()->variables)->toHaveKey('description', 'Fuite sous l\'évier de la cuisine');
+    expect($withoutDescription->toEmail()->variables)->toHaveKey('description', null);
+});

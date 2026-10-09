@@ -27,6 +27,7 @@ final readonly class ToolsProSecondReminderNotificationData implements EmailCapa
         public ?string $interested_url = null,
         public ?string $declined_url = null,
         public ?bool $is_direct = null,
+        public ?string $description = null,
     ) {}
 
     public function notificationType(): NotificationType
