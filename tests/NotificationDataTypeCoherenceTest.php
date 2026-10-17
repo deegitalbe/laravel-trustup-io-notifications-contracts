@@ -30,6 +30,7 @@ it('every NotificationType data class returns its own notificationType without e
         NotificationType::MarketplaceAssignedProsReminderNotification => ['https://example.test', 4321],
         NotificationType::MarketplacePlatformFeedbackNotification => ['https://example.test', 4321],
         NotificationType::MarketplacePlatformFeedbackReminderNotification => ['https://example.test', 4321],
+        NotificationType::MarketplaceProfileReviewReminderNotification => ['https://example.test', 'First Name', 'pro-1', 'Pro Name'],
         default => throw new LogicException("No minimal args defined for [{$type->value}] in coherence test."),
     };
 

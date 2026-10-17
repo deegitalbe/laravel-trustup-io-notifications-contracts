@@ -129,4 +129,5 @@ it('supportedChannels() for each V3 marketplace type returns only email', functi
     NotificationType::MarketplaceAssignedProsReminderNotification,
     NotificationType::MarketplacePlatformFeedbackNotification,
     NotificationType::MarketplacePlatformFeedbackReminderNotification,
+    NotificationType::MarketplaceProfileReviewReminderNotification,
 ]);

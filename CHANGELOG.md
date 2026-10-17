@@ -1,5 +1,15 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.15.0
+
+### Minor Changes
+
+- 8202a6d: Add the Profile review reminder notification
+
+  - Add `NotificationType::MarketplaceProfileReviewReminderNotification` (`marketplace.profile-review-reminder.notification`), bound to the marketplace source and email as its only supported channel.
+  - Add `MarketplaceProfileReviewReminderNotificationData` (`base_url`, `first_name`, `professional_id`, `professional_name`) as the payload for this notification. The profile is named in the payload because a tenant can own several.
+  <!-- release-note: impact=internal linear=TDD-6125 -->
+
 ## 3.14.0
 
 ### Minor Changes
