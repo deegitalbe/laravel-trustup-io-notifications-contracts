@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use Deegitalbe\TrustupIoNotificationsContracts\Data\EmailContent;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\EmailSender;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\PushContent;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\SmsContent;
+use Deegitalbe\TrustupIoNotificationsContracts\Enums\SenderRole;
 use Deegitalbe\TrustupIoNotificationsContracts\Exceptions\InvalidNotificationDataException;
 
 it('creates SmsContent with a non-empty body', function (): void {
@@ -42,12 +44,19 @@ it('throws InvalidNotificationDataException when PushContent body is empty', fun
 it('creates EmailContent with a variables map', function (): void {
     $content = new EmailContent(['title' => 'Hello', 'body' => 'World']);
 
-    expect($content->variables)->toBe(['title' => 'Hello', 'body' => 'World'])
-        ->and($content->senderName)->toBeNull();
+    expect($content->variables)->toBe(['title' => 'Hello', 'body' => 'World']);
 });
 
-it('creates EmailContent with an optional sender name', function (): void {
-    $content = new EmailContent(['title' => 'Hello'], senderName: 'A3D CONSTRUCT');
+it('creates a default EmailSender with no display name', function (): void {
+    $sender = new EmailSender;
 
-    expect($content->senderName)->toBe('A3D CONSTRUCT');
+    expect($sender->role)->toBe(SenderRole::Default)
+        ->and($sender->name)->toBeNull();
+});
+
+it('creates an EmailSender with a role and a display name', function (): void {
+    $sender = new EmailSender(SenderRole::CreditControl, 'TrustUp');
+
+    expect($sender->role)->toBe(SenderRole::CreditControl)
+        ->and($sender->name)->toBe('TrustUp');
 });

@@ -31,6 +31,10 @@ it('every NotificationType data class returns its own notificationType without e
         NotificationType::MarketplacePlatformFeedbackNotification => ['https://example.test', 4321],
         NotificationType::MarketplacePlatformFeedbackReminderNotification => ['https://example.test', 4321],
         NotificationType::MarketplaceProfileReviewReminderNotification => ['https://example.test', 'First Name', 'pro-1', 'Pro Name'],
+        NotificationType::ToolsUnpaidLevel1Notification => ['03/11/2026', '08/11/2026', [['number' => 'F-2026-001', 'amount' => '1.234,56 €', 'date' => '01/09/2026']], '1.234,56 €', 'Trustup SA', 'BE68539007547034', null, '+++123/4567/89012+++', 'https://example.test/qr.png', 'https://example.test/invoices'],
+        NotificationType::ToolsUnpaidLevel2Notification => ['03/11/2026', '08/11/2026', [['number' => 'F-2026-001', 'amount' => '1.234,56 €', 'date' => '01/09/2026']], '1.234,56 €', 'Trustup SA', 'BE68539007547034', null, '+++123/4567/89012+++', 'https://example.test/qr.png', 'https://example.test/invoices'],
+        NotificationType::ToolsUnpaidLevel3Notification => ['03/11/2026', '08/11/2026', [['number' => 'F-2026-001', 'amount' => '1.234,56 €', 'date' => '01/09/2026']], '1.234,56 €', 'Trustup SA', 'BE68539007547034', null, '+++123/4567/89012+++', 'https://example.test/qr.png', 'https://example.test/invoices'],
+        NotificationType::ToolsUnpaidLevel4Notification => ['03/11/2026', '08/11/2026', [['number' => 'F-2026-001', 'amount' => '1.234,56 €', 'date' => '01/09/2026']], '1.234,56 €', 'Trustup SA', 'BE68539007547034', null, '+++123/4567/89012+++', 'https://example.test/qr.png', 'https://example.test/invoices'],
         default => throw new LogicException("No minimal args defined for [{$type->value}] in coherence test."),
     };
 

@@ -131,3 +131,12 @@ it('supportedChannels() for each V3 marketplace type returns only email', functi
     NotificationType::MarketplacePlatformFeedbackReminderNotification,
     NotificationType::MarketplaceProfileReviewReminderNotification,
 ]);
+
+it('supportedChannels() for each unpaid level type returns only email', function (NotificationType $type): void {
+    expect($type->supportedChannels())->toBe([NotificationChannel::Email]);
+})->with([
+    NotificationType::ToolsUnpaidLevel1Notification,
+    NotificationType::ToolsUnpaidLevel2Notification,
+    NotificationType::ToolsUnpaidLevel3Notification,
+    NotificationType::ToolsUnpaidLevel4Notification,
+]);

@@ -157,3 +157,15 @@ it('maps each V3 marketplace type to Marketplace source, its slug and data class
     'platform feedback reminder' => [NotificationType::MarketplacePlatformFeedbackReminderNotification, 'marketplace.platform-feedback-reminder.notification', 'marketplace-platform-feedback-reminder-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplacePlatformFeedbackReminderNotificationData::class],
     'profile review reminder' => [NotificationType::MarketplaceProfileReviewReminderNotification, 'marketplace.profile-review-reminder.notification', 'marketplace-profile-review-reminder-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceProfileReviewReminderNotificationData::class],
 ]);
+
+it('maps each unpaid level type to Tools source, its slug and data class', function (NotificationType $type, string $value, string $slug, string $dataClass): void {
+    expect($type->value)->toBe($value);
+    expect($type->source())->toBe(Source::Tools);
+    expect($type->slug())->toBe($slug);
+    expect($type->dataClass())->toBe($dataClass);
+})->with([
+    'unpaid level 1' => [NotificationType::ToolsUnpaidLevel1Notification, 'tools.unpaid-level-1.notification', 'tools-unpaid-level-1-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsUnpaidLevel1NotificationData::class],
+    'unpaid level 2' => [NotificationType::ToolsUnpaidLevel2Notification, 'tools.unpaid-level-2.notification', 'tools-unpaid-level-2-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsUnpaidLevel2NotificationData::class],
+    'unpaid level 3' => [NotificationType::ToolsUnpaidLevel3Notification, 'tools.unpaid-level-3.notification', 'tools-unpaid-level-3-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsUnpaidLevel3NotificationData::class],
+    'unpaid level 4' => [NotificationType::ToolsUnpaidLevel4Notification, 'tools.unpaid-level-4.notification', 'tools-unpaid-level-4-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsUnpaidLevel4NotificationData::class],
+]);

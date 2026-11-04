@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Deegitalbe\TrustupIoNotificationsContracts\Data\EmailSender;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\WhitelabelDemandReceivedNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 
@@ -183,7 +184,7 @@ it('uses pro_name as the email sender name when set', function (): void {
         pro_name: 'Toiture Martin',
     );
 
-    expect($data->toEmail()->senderName)->toBe('Toiture Martin');
+    expect($data->emailSender())->toEqual(new EmailSender(name: 'Toiture Martin'));
 });
 
 it('has a null email sender name when pro_name is null', function (): void {
@@ -192,5 +193,5 @@ it('has a null email sender name when pro_name is null', function (): void {
         demand_id: 4321,
     );
 
-    expect($data->toEmail()->senderName)->toBeNull();
+    expect($data->emailSender())->toEqual(new EmailSender);
 });

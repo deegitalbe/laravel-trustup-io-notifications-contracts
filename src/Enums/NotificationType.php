@@ -29,6 +29,10 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandNotificationDa
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProResponseReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProSecondReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsTestNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsUnpaidLevel1NotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsUnpaidLevel2NotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsUnpaidLevel3NotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsUnpaidLevel4NotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\WhitelabelDemandReceivedNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\WhitelabelNewChatMessageNotificationData;
 use LogicException;
@@ -84,6 +88,11 @@ enum NotificationType: string
 
     case MarketplaceProfileReviewReminderNotification = 'marketplace.profile-review-reminder.notification';
 
+    case ToolsUnpaidLevel1Notification = 'tools.unpaid-level-1.notification';
+    case ToolsUnpaidLevel2Notification = 'tools.unpaid-level-2.notification';
+    case ToolsUnpaidLevel3Notification = 'tools.unpaid-level-3.notification';
+    case ToolsUnpaidLevel4Notification = 'tools.unpaid-level-4.notification';
+
     /**
      * Dotless form of the value ("tools-test-notification"), safe to embed in a
      * dotted translation key or a provider template name.
@@ -119,10 +128,14 @@ enum NotificationType: string
             self::MarketplaceAssignedProsReminderNotification => MarketplaceAssignedProsReminderNotificationData::class,
             self::MarketplacePlatformFeedbackNotification => MarketplacePlatformFeedbackNotificationData::class,
             self::MarketplacePlatformFeedbackReminderNotification => MarketplacePlatformFeedbackReminderNotificationData::class,
+            self::MarketplaceProfileReviewReminderNotification => MarketplaceProfileReviewReminderNotificationData::class,
+            self::ToolsUnpaidLevel1Notification => ToolsUnpaidLevel1NotificationData::class,
+            self::ToolsUnpaidLevel2Notification => ToolsUnpaidLevel2NotificationData::class,
+            self::ToolsUnpaidLevel3Notification => ToolsUnpaidLevel3NotificationData::class,
             // PHPStan narrows $this to exactly this case once every other case is listed above, so it
             // flags this comparison as match.alwaysTrue; the `default => throw` arm is kept anyway as a
             // safety net for any future case added without a mapping, hence the ignore below.
-            self::MarketplaceProfileReviewReminderNotification => MarketplaceProfileReviewReminderNotificationData::class, // @phpstan-ignore-line
+            self::ToolsUnpaidLevel4Notification => ToolsUnpaidLevel4NotificationData::class, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no dataClass mapping."),
         };
     }
@@ -153,9 +166,13 @@ enum NotificationType: string
             self::MarketplaceAssignedProsReminderNotification => Source::Marketplace,
             self::MarketplacePlatformFeedbackNotification => Source::Marketplace,
             self::MarketplacePlatformFeedbackReminderNotification => Source::Marketplace,
+            self::MarketplaceProfileReviewReminderNotification => Source::Marketplace,
+            self::ToolsUnpaidLevel1Notification => Source::Tools,
+            self::ToolsUnpaidLevel2Notification => Source::Tools,
+            self::ToolsUnpaidLevel3Notification => Source::Tools,
             // Same match.alwaysTrue reasoning as in dataClass() above: PHPStan considers this last
             // case redundant, but the `default => throw` safety net justifies keeping it explicit.
-            self::MarketplaceProfileReviewReminderNotification => Source::Marketplace, // @phpstan-ignore-line
+            self::ToolsUnpaidLevel4Notification => Source::Tools, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no source mapping."),
         };
     }

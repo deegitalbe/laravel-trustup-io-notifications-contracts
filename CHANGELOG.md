@@ -1,5 +1,17 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.16.0
+
+### Minor Changes
+
+- 0fd230b: Add the unpaid level notifications
+
+  - Add `NotificationType::ToolsUnpaidLevel1Notification` to `ToolsUnpaidLevel4Notification` (`tools.unpaid-level-1.notification` to `tools.unpaid-level-4.notification`), bound to the tools source and email as their only supported channel. One type per level, so each level renders its own Postmark template, picked by full recipient locale (`tools-unpaid-level-1-notification-fr-BE`) because the copy differs per country.
+  - Add `ToolsUnpaidLevel1NotificationData` to `ToolsUnpaidLevel4NotificationData`, sharing the abstract `ToolsUnpaidLevelNotificationData` payload (`statement_date`, `payment_due_date`, `invoices` with `number`, `amount` and `date`, `total`, `beneficiary`, `iban`, `bic`, `communication`, `qr_code_url`, `invoices_url`). Amounts and dates arrive formatted, since Postmark templates cannot format or compute them; `bic` is null when unknown.
+  - Add `EmailCapable::emailSender()`, returning an `EmailSender` (a `SenderRole` plus an optional display name). `RendersEmail` defaults it to `SenderRole::Default` with no name; the consuming app maps each role to a verified address per source and region. The unpaid level notifications use `SenderRole::CreditControl` under the name `TrustUp`.
+  - Breaking, accepted in this minor: `EmailContent` keeps only `variables`. `EmailContent::$senderName` is removed, the whitelabel notifications now declare their `pro_name` through `emailSender()->name`, and any class implementing `EmailCapable` without `RendersEmail` must add `emailSender()`.
+  <!-- release-note: impact=internal linear=TDD-6548 -->
+
 ## 3.15.0
 
 ### Minor Changes

@@ -34,9 +34,9 @@ final readonly class WhitelabelNewChatMessageNotificationData implements EmailCa
         return NotificationType::WhitelabelNewChatMessageNotification;
     }
 
-    public function toEmail(): EmailContent
+    public function emailSender(): EmailSender
     {
-        return new EmailContent($this->emailVariables(), senderName: $this->pro_name);
+        return new EmailSender(name: $this->pro_name);
     }
 
     /** @return array<string, mixed> */

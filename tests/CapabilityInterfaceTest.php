@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\EmailCapable;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\PushCapable;
 use Deegitalbe\TrustupIoNotificationsContracts\Contracts\SmsCapable;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\EmailSender;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsTestNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 use Illuminate\Support\Facades\Lang;
@@ -43,6 +44,12 @@ it('toEmail returns EmailContent with title and body as variables', function ():
     $emailContent = $data->toEmail();
 
     expect($emailContent->variables)->toBe(['base_url' => 'https://example.test', 'title' => 'Hello', 'body' => 'World']);
+});
+
+it('is sent by the default sender with no display name unless it says otherwise', function (): void {
+    $data = new ToolsTestNotificationData('https://example.test', 'Hello', 'World');
+
+    expect($data->emailSender())->toEqual(new EmailSender);
 });
 
 it('toSms returns SmsContent rendered from the notification type translation key', function (): void {

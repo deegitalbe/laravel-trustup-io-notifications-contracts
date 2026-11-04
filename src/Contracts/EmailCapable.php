@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deegitalbe\TrustupIoNotificationsContracts\Contracts;
 
 use Deegitalbe\TrustupIoNotificationsContracts\Data\EmailContent;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\EmailSender;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\EmailTemplateLocaleGranularity;
 
 interface EmailCapable
@@ -14,4 +15,6 @@ interface EmailCapable
     public function emailTemplate(): string;
 
     public function emailTemplateLocaleGranularity(): EmailTemplateLocaleGranularity;
+
+    public function emailSender(): EmailSender;
 }
