@@ -13,8 +13,8 @@ $pros = [['name' => 'Dupont SRL', 'logo' => 'https://example.test/logo.png', 'tr
 $rating = [['note' => 1, 'url' => 'https://example.test/feedback?note=1'], ['note' => 5, 'url' => 'https://example.test/feedback?note=5']];
 
 dataset('v3 new type classes', [
-    'new interested pros' => [MarketplaceNewInterestedProsNotificationData::class, NotificationType::MarketplaceNewInterestedProsNotification, ['claim_token' => 'tok', 'pros' => $pros, 'demand_description' => 'D', 'demand_cancel_url' => 'https://example.test/cancel', 'demand_illustration_url' => 'https://example.test/p.jpg', 'professional_count' => 3, 'workfield_label' => 'Plombier', 'city' => 'Liège', 'single_professional' => true]],
-    'assigned pros reminder' => [MarketplaceAssignedProsReminderNotificationData::class, NotificationType::MarketplaceAssignedProsReminderNotification, ['claim_token' => 'tok', 'pros' => $pros, 'demand_description' => 'D', 'demand_cancel_url' => 'https://example.test/cancel', 'demand_illustration_url' => 'https://example.test/p.jpg', 'professional_count' => 3, 'workfield_label' => 'Plombier', 'city' => 'Liège', 'single_professional' => true]],
+    'new interested pros' => [MarketplaceNewInterestedProsNotificationData::class, NotificationType::MarketplaceNewInterestedProsNotification, ['claim_token' => 'tok', 'pros' => $pros, 'demand_description' => 'D', 'demand_cancel_url' => 'https://example.test/cancel', 'demand_illustration_url' => 'https://example.test/p.jpg', 'professional_count' => 3, 'workfield_label' => 'Plombier', 'city' => 'Liège', 'single_professional' => true, 'preview_token' => 'prv_4d2e8b10']],
+    'assigned pros reminder' => [MarketplaceAssignedProsReminderNotificationData::class, NotificationType::MarketplaceAssignedProsReminderNotification, ['claim_token' => 'tok', 'pros' => $pros, 'demand_description' => 'D', 'demand_cancel_url' => 'https://example.test/cancel', 'demand_illustration_url' => 'https://example.test/p.jpg', 'professional_count' => 3, 'workfield_label' => 'Plombier', 'city' => 'Liège', 'single_professional' => true, 'preview_token' => 'prv_4d2e8b10']],
     'platform feedback' => [MarketplacePlatformFeedbackNotificationData::class, NotificationType::MarketplacePlatformFeedbackNotification, ['first_name' => 'Camille', 'rating_links' => $rating]],
     'platform feedback reminder' => [MarketplacePlatformFeedbackReminderNotificationData::class, NotificationType::MarketplacePlatformFeedbackReminderNotification, ['first_name' => 'Camille', 'pro_name' => 'Dupont SRL', 'rating_links' => $rating]],
 ]);
@@ -53,3 +53,25 @@ it('fails loudly when a required key is missing', function (string $class): void
     MarketplacePlatformFeedbackNotificationData::class,
     MarketplacePlatformFeedbackReminderNotificationData::class,
 ]);
+
+it('sends preview_token to the NewInterestedPros email variables', function (): void {
+    $data = new MarketplaceNewInterestedProsNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        claim_token: 'tok_9f3ba71c',
+        preview_token: 'prv_4d2e8b10',
+    );
+
+    expect($data->toEmail()->variables)->toHaveKey('preview_token', 'prv_4d2e8b10');
+});
+
+it('sends preview_token to the AssignedProsReminder email variables', function (): void {
+    $data = new MarketplaceAssignedProsReminderNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        claim_token: 'tok_9f3ba71c',
+        preview_token: 'prv_4d2e8b10',
+    );
+
+    expect($data->toEmail()->variables)->toHaveKey('preview_token', 'prv_4d2e8b10');
+});

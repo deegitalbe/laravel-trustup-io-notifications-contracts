@@ -1,5 +1,15 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.17.0
+
+### Minor Changes
+
+- ecdeb05: Carry the preview token in the customer notification data (TDD-7233)
+
+  - Add an optional `preview_token` (`?string`, last constructor argument, null when absent) to the customer data classes that carry `claim_token`: `MarketplaceAssignationActivation`, `MarketplaceAssignedProsReminder`, `MarketplaceDemandReceived`, `MarketplaceDemandTransmitted`, `MarketplaceNewChatMessageForCustomer`, `MarketplaceNewInterestedPros`, `MarketplaceUnclaimedDemandReminder`, `MarketplaceUserAssignment`, `MarketplaceUserReassign`, `WhitelabelDemandReceived` and `WhitelabelNewChatMessage`.
+  - The token is the encrypted preview token, same form as `claim_token`. It reaches the Postmark template model as `preview_token`. Senders on an older contracts version keep working.
+  <!-- release-note: impact=internal linear=TDD-7233 -->
+
 ## 3.16.0
 
 ### Minor Changes

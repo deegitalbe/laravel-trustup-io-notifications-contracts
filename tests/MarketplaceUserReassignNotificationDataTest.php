@@ -93,3 +93,22 @@ it('reports the marketplace user-reassign notification type', function (): void 
 
     expect($data->notificationType())->toBe(NotificationType::MarketplaceUserReassignNotification);
 });
+
+it('carries preview_token to the email variables and tolerates older senders without it', function (): void {
+    $data = new MarketplaceUserReassignNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        claim_token: 'tok_9f3ba71c',
+        preview_token: 'prv_4d2e8b10',
+    );
+
+    expect($data->preview_token)->toBe('prv_4d2e8b10');
+    expect($data->toArray())->toHaveKey('preview_token', 'prv_4d2e8b10');
+    expect($data->toEmail()->variables)->toHaveKey('preview_token', 'prv_4d2e8b10');
+    expect(MarketplaceUserReassignNotificationData::fromArray($data->toArray())->preview_token)->toBe('prv_4d2e8b10');
+
+    $legacyPayload = $data->toArray();
+    unset($legacyPayload['preview_token']);
+
+    expect(MarketplaceUserReassignNotificationData::fromArray($legacyPayload)->preview_token)->toBeNull();
+});

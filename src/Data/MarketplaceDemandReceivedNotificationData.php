@@ -28,6 +28,7 @@ final readonly class MarketplaceDemandReceivedNotificationData implements EmailC
         public ?string $demand_cancel_url = null,
         public ?string $demand_illustration_url = null,
         public ?bool $is_direct = null,
+        public ?string $preview_token = null,
     ) {}
 
     public function notificationType(): NotificationType

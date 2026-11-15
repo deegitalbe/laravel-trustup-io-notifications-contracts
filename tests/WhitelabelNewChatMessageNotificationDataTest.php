@@ -223,3 +223,22 @@ it('has a null email sender name when pro_name is null', function (): void {
 
     expect($data->emailSender())->toEqual(new EmailSender);
 });
+
+it('carries preview_token to the email variables and tolerates older senders without it', function (): void {
+    $data = new WhitelabelNewChatMessageNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        locale: 'fr', claim_token: 'tok_9f3ba71c',
+        preview_token: 'prv_4d2e8b10',
+    );
+
+    expect($data->preview_token)->toBe('prv_4d2e8b10');
+    expect($data->toArray())->toHaveKey('preview_token', 'prv_4d2e8b10');
+    expect($data->toEmail()->variables)->toHaveKey('preview_token', 'prv_4d2e8b10');
+    expect(WhitelabelNewChatMessageNotificationData::fromArray($data->toArray())->preview_token)->toBe('prv_4d2e8b10');
+
+    $legacyPayload = $data->toArray();
+    unset($legacyPayload['preview_token']);
+
+    expect(WhitelabelNewChatMessageNotificationData::fromArray($legacyPayload)->preview_token)->toBeNull();
+});

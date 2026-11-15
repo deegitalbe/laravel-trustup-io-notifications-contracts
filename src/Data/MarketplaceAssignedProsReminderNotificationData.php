@@ -30,6 +30,7 @@ final readonly class MarketplaceAssignedProsReminderNotificationData implements 
         public ?string $workfield_label = null,
         public ?string $city = null,
         public ?bool $single_professional = null,
+        public ?string $preview_token = null,
     ) {}
 
     public function notificationType(): NotificationType
