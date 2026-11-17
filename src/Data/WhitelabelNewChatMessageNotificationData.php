@@ -28,6 +28,7 @@ final readonly class WhitelabelNewChatMessageNotificationData implements EmailCa
         public ?string $workfield_label = null,
         public ?string $city = null,
         public ?string $preview_token = null,
+        public ?string $conversation_url = null,
     ) {}
 
     public function notificationType(): NotificationType

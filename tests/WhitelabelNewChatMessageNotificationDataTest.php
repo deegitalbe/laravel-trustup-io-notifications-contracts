@@ -242,3 +242,35 @@ it('carries preview_token to the email variables and tolerates older senders wit
 
     expect(WhitelabelNewChatMessageNotificationData::fromArray($legacyPayload)->preview_token)->toBeNull();
 });
+
+it('carries conversation_url to the email variables and keeps it through a round trip', function (): void {
+    $data = new WhitelabelNewChatMessageNotificationData(
+        base_url: 'https://example.test',
+        demand_id: 4321,
+        locale: 'fr',
+        claim_token: 'tok_9f3ba71c',
+        conversation_url: 'https://example.test/member/messages/77?claim=tok_9f3ba71c',
+    );
+
+    expect($data->conversation_url)->toBe('https://example.test/member/messages/77?claim=tok_9f3ba71c');
+    expect($data->toArray())->toHaveKey('conversation_url', 'https://example.test/member/messages/77?claim=tok_9f3ba71c');
+    expect($data->toEmail()->variables)->toHaveKey('conversation_url', 'https://example.test/member/messages/77?claim=tok_9f3ba71c');
+    expect(WhitelabelNewChatMessageNotificationData::fromArray($data->toArray())->conversation_url)
+        ->toBe('https://example.test/member/messages/77?claim=tok_9f3ba71c');
+});
+
+it('defaults conversation_url to null and keeps the other email variables when missing from the payload', function (): void {
+    $restored = WhitelabelNewChatMessageNotificationData::fromArray([
+        'base_url' => 'https://example.test',
+        'demand_id' => 4321,
+        'locale' => 'fr',
+        'claim_token' => 'tok_9f3ba71c',
+        'preview_token' => 'prv_4d2e8b10',
+    ]);
+
+    expect($restored->conversation_url)->toBeNull();
+    expect($restored->toEmail()->variables)
+        ->toHaveKey('claim_token', 'tok_9f3ba71c')
+        ->toHaveKey('preview_token', 'prv_4d2e8b10')
+        ->toHaveKey('conversation_url', null);
+});

@@ -1,5 +1,16 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.18.0
+
+### Minor Changes
+
+- 03dfad7: Carry the conversation address in the customer new-message data
+  
+  - Accept an optional `conversation_url` (`?string`, last constructor argument after `preview_token`, null when absent) on `MarketplaceNewChatMessageForCustomerNotificationData` and `WhitelabelNewChatMessageNotificationData`.
+  - Expose `conversation_url` unchanged in the Postmark template model, so the email button can open the requester's conversation with the pro who wrote.
+  - Keep senders on an older contracts version working, with `conversation_url` null and every other email value unchanged.
+  <!-- release-note: impact=internal linear=TDD-7641 -->
+
 ## 3.17.0
 
 ### Minor Changes

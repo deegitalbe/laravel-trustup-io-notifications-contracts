@@ -35,6 +35,7 @@ final readonly class MarketplaceNewChatMessageForCustomerNotificationData implem
         public ?string $demand_illustration_url = null,
         public ?array $rating_links = null,
         public ?string $preview_token = null,
+        public ?string $conversation_url = null,
     ) {}
 
     public function notificationType(): NotificationType
