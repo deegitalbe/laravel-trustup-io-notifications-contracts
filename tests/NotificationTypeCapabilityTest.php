@@ -6,10 +6,15 @@ use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationChannel;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\Source;
 
-it('source() returns the Source derived from the value prefix for every case', function (NotificationType $type): void {
+it('source() returns the Source derived from the value prefix for every case, except the t360 payment plans that keep the tools prefix', function (NotificationType $type): void {
+    $keepsToolsPrefixOnT360 = [
+        NotificationType::ToolsPaymentPlanConfirmationNotification,
+        NotificationType::ToolsPaymentPlanInstallmentDueNotification,
+    ];
+
     expect(fn () => $type->source())->not->toThrow(Throwable::class);
-    $prefix = explode('.', $type->value)[0];
-    expect($type->source()->value)->toBe($prefix);
+    $expected = in_array($type, $keepsToolsPrefixOnT360, true) ? Source::T360->value : explode('.', $type->value)[0];
+    expect($type->source()->value)->toBe($expected);
 })->with(NotificationType::cases());
 
 it('supportedChannels() returns a non-empty array of NotificationChannel instances for every case', function (NotificationType $type): void {

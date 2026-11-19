@@ -21,11 +21,19 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceSatisfactionSurve
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUnclaimedDemandReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserAssignmentNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserReassignNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\T360OnboardingCancelledNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\T360OnboardingConfirmationNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\T360OnboardingInvitationNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\T360OnboardingNoShowNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\T360OnboardingReminderNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\T360OnboardingRescheduledNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsFullLocaleTestNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewChatMessageForProfessionalNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandForProfessionalFreemiumNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandForProfessionalNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsPaymentPlanConfirmationNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsPaymentPlanInstallmentDueNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProResponseReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProSecondReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsTestNotificationData;
@@ -93,6 +101,17 @@ enum NotificationType: string
     case ToolsUnpaidLevel3Notification = 'tools.unpaid-level-3.notification';
     case ToolsUnpaidLevel4Notification = 'tools.unpaid-level-4.notification';
 
+    case T360OnboardingInvitationNotification = 't360.onboarding-invitation.notification';
+    case T360OnboardingConfirmationNotification = 't360.onboarding-confirmation.notification';
+    case T360OnboardingReminderNotification = 't360.onboarding-reminder.notification';
+    case T360OnboardingRescheduledNotification = 't360.onboarding-rescheduled.notification';
+    case T360OnboardingCancelledNotification = 't360.onboarding-cancelled.notification';
+    case T360OnboardingNoShowNotification = 't360.onboarding-no-show.notification';
+
+    // Keep the tools. prefix: the slug must give back the existing 360 Postmark aliases; source() maps these to T360, not the prefix.
+    case ToolsPaymentPlanConfirmationNotification = 'tools.payment-plan-confirmation.notification';
+    case ToolsPaymentPlanInstallmentDueNotification = 'tools.payment-plan-installment-due.notification';
+
     /**
      * Dotless form of the value ("tools-test-notification"), safe to embed in a
      * dotted translation key or a provider template name.
@@ -132,10 +151,18 @@ enum NotificationType: string
             self::ToolsUnpaidLevel1Notification => ToolsUnpaidLevel1NotificationData::class,
             self::ToolsUnpaidLevel2Notification => ToolsUnpaidLevel2NotificationData::class,
             self::ToolsUnpaidLevel3Notification => ToolsUnpaidLevel3NotificationData::class,
+            self::ToolsUnpaidLevel4Notification => ToolsUnpaidLevel4NotificationData::class,
+            self::T360OnboardingInvitationNotification => T360OnboardingInvitationNotificationData::class,
+            self::T360OnboardingConfirmationNotification => T360OnboardingConfirmationNotificationData::class,
+            self::T360OnboardingReminderNotification => T360OnboardingReminderNotificationData::class,
+            self::T360OnboardingRescheduledNotification => T360OnboardingRescheduledNotificationData::class,
+            self::T360OnboardingCancelledNotification => T360OnboardingCancelledNotificationData::class,
+            self::T360OnboardingNoShowNotification => T360OnboardingNoShowNotificationData::class,
+            self::ToolsPaymentPlanConfirmationNotification => ToolsPaymentPlanConfirmationNotificationData::class,
             // PHPStan narrows $this to exactly this case once every other case is listed above, so it
             // flags this comparison as match.alwaysTrue; the `default => throw` arm is kept anyway as a
             // safety net for any future case added without a mapping, hence the ignore below.
-            self::ToolsUnpaidLevel4Notification => ToolsUnpaidLevel4NotificationData::class, // @phpstan-ignore-line
+            self::ToolsPaymentPlanInstallmentDueNotification => ToolsPaymentPlanInstallmentDueNotificationData::class, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no dataClass mapping."),
         };
     }
@@ -170,9 +197,17 @@ enum NotificationType: string
             self::ToolsUnpaidLevel1Notification => Source::Tools,
             self::ToolsUnpaidLevel2Notification => Source::Tools,
             self::ToolsUnpaidLevel3Notification => Source::Tools,
+            self::ToolsUnpaidLevel4Notification => Source::Tools,
+            self::T360OnboardingInvitationNotification => Source::T360,
+            self::T360OnboardingConfirmationNotification => Source::T360,
+            self::T360OnboardingReminderNotification => Source::T360,
+            self::T360OnboardingRescheduledNotification => Source::T360,
+            self::T360OnboardingCancelledNotification => Source::T360,
+            self::T360OnboardingNoShowNotification => Source::T360,
+            self::ToolsPaymentPlanConfirmationNotification => Source::T360,
             // Same match.alwaysTrue reasoning as in dataClass() above: PHPStan considers this last
             // case redundant, but the `default => throw` safety net justifies keeping it explicit.
-            self::ToolsUnpaidLevel4Notification => Source::Tools, // @phpstan-ignore-line
+            self::ToolsPaymentPlanInstallmentDueNotification => Source::T360, // @phpstan-ignore-line
             default => throw new LogicException("NotificationType [{$this->value}] has no source mapping."),
         };
     }

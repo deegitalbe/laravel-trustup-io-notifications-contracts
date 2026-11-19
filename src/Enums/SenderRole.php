@@ -12,4 +12,5 @@ enum SenderRole: string
 {
     case Default = 'default';
     case CreditControl = 'credit_control';
+    case Onboarding = 'onboarding';
 }

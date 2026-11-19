@@ -8,6 +8,7 @@ use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\Source;
 use Deegitalbe\TrustupIoNotificationsContracts\Exceptions\InvalidEnvelopeException;
 use Deegitalbe\TrustupIoNotificationsContracts\Exceptions\UnknownNotificationTypeException;
+use Deegitalbe\TrustupIoNotificationsContracts\Request\Attachment;
 use Deegitalbe\TrustupIoNotificationsContracts\Request\Recipient;
 use Deegitalbe\TrustupIoNotificationsContracts\Request\RequestPayload;
 
@@ -79,4 +80,75 @@ it('throws InvalidEnvelopeException when channels is empty array in fromArray', 
 
     expect(fn () => RequestPayload::fromArray($invalidData))
         ->toThrow(InvalidEnvelopeException::class);
+});
+
+it('reads a message without attachments key as having no attachments', function (): void {
+    $legacyMessage = [
+        'type' => NotificationType::ToolsTestNotification->value,
+        'recipient' => Recipient::identified('ext-1', Source::Tools)->toArray(),
+        'data' => ['base_url' => 'https://example.test', 'title' => 'T', 'body' => 'B'],
+        'channels' => null,
+    ];
+
+    $payload = RequestPayload::fromArray($legacyMessage);
+
+    expect($payload->attachments)->toBe([]);
+});
+
+it('serializes a request without attachments as an empty list', function (): void {
+    $payload = new RequestPayload(
+        type: NotificationType::ToolsTestNotification,
+        recipient: Recipient::identified('ext-1', Source::Tools),
+        data: new ToolsTestNotificationData('https://example.test', 'Title', 'Body'),
+        channels: null,
+    );
+
+    expect($payload->toArray()['attachments'])->toBe([]);
+});
+
+it('round-trips two attachments in order via toArray and fromArray', function (): void {
+    $calendar = new Attachment('invite.ics', 'text/calendar; method=REQUEST', base64_encode('ics-bytes'));
+    $qrCode = new Attachment('payment-qr.png', 'image/png', base64_encode('png-bytes'), 'cid:payment-qr.png');
+    $original = new RequestPayload(
+        type: NotificationType::ToolsTestNotification,
+        recipient: Recipient::identified('ext-1', Source::Tools),
+        data: new ToolsTestNotificationData('https://example.test', 'Title', 'Body'),
+        channels: null,
+        attachments: [$calendar, $qrCode],
+    );
+
+    $array = $original->toArray();
+    $restored = RequestPayload::fromArray($array);
+
+    expect($array['attachments'])->toBe([$calendar->toArray(), $qrCode->toArray()]);
+    expect($restored->attachments)->toEqual([$calendar, $qrCode]);
+});
+
+it('refuses the whole request when one of its attachments is invalid', function (): void {
+    $message = [
+        'type' => NotificationType::ToolsTestNotification->value,
+        'recipient' => Recipient::identified('ext-1', Source::Tools)->toArray(),
+        'data' => ['base_url' => 'https://example.test', 'title' => 'T', 'body' => 'B'],
+        'channels' => null,
+        'attachments' => [
+            ['name' => 'invite.ics', 'content_type' => 'text/calendar', 'content' => base64_encode('ics-bytes')],
+            ['name' => 'broken.png', 'content_type' => 'image/png', 'content' => 'pas du base64!'],
+            ['name' => 'payment-qr.png', 'content_type' => 'image/png', 'content' => base64_encode('png-bytes')],
+        ],
+    ];
+
+    expect(fn () => RequestPayload::fromArray($message))->toThrow(InvalidEnvelopeException::class);
+});
+
+it('refuses a request whose attachments is not a list', function (): void {
+    $message = [
+        'type' => NotificationType::ToolsTestNotification->value,
+        'recipient' => Recipient::identified('ext-1', Source::Tools)->toArray(),
+        'data' => ['base_url' => 'https://example.test', 'title' => 'T', 'body' => 'B'],
+        'channels' => null,
+        'attachments' => 'invite.ics',
+    ];
+
+    expect(fn () => RequestPayload::fromArray($message))
+        ->toThrow(InvalidEnvelopeException::class, 'attachments must be a list');
 });

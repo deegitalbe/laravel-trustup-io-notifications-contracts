@@ -13,12 +13,17 @@ use Deegitalbe\TrustupIoNotificationsContracts\Exceptions\UnknownNotificationTyp
 
 readonly class RequestPayload implements Serializable
 {
-    /** @param list<NotificationChannel>|null $channels */
+    /**
+     * @param  list<NotificationChannel>|null  $channels
+     * @param  list<Attachment>  $attachments
+     */
     public function __construct(
         public NotificationType $type,
         public Recipient $recipient,
         public NotificationData $data,
         public ?array $channels,
+        public array $attachments = [],
+        public ?Sender $sender = null,
     ) {
         if ($this->channels !== null && $this->channels === []) {
             throw new InvalidEnvelopeException('Request payload channels must not be an empty list. Provide at least one channel or null to mean all channels.');
@@ -35,6 +40,11 @@ readonly class RequestPayload implements Serializable
             'channels' => $this->channels !== null
                 ? array_map(fn (NotificationChannel $channel) => $channel->value, $this->channels)
                 : null,
+            'attachments' => array_map(
+                fn (Attachment $attachment): array => $attachment->toArray(),
+                $this->attachments,
+            ),
+            'sender' => $this->sender?->toArray(),
         ];
     }
 
@@ -66,11 +76,28 @@ readonly class RequestPayload implements Serializable
             );
         }
 
+        $rawAttachments = $data['attachments'] ?? [];
+
+        if (! is_array($rawAttachments)) {
+            throw new InvalidEnvelopeException('Request payload attachments must be a list.');
+        }
+
+        $rawSender = $data['sender'] ?? null;
+
+        if ($rawSender !== null && ! is_array($rawSender)) {
+            throw new InvalidEnvelopeException('Request payload sender must be an object.');
+        }
+
         return new self(
             type: $type,
             recipient: Recipient::fromArray((array) ($data['recipient'] ?? [])),
             data: $notificationData,
             channels: $channels,
+            attachments: array_values(array_map(
+                fn (mixed $attachment): Attachment => Attachment::fromArray((array) $attachment),
+                $rawAttachments,
+            )),
+            sender: $rawSender !== null ? Sender::fromArray($rawSender) : null,
         );
     }
 }

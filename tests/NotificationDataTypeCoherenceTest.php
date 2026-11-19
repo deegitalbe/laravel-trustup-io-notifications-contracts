@@ -35,6 +35,14 @@ it('every NotificationType data class returns its own notificationType without e
         NotificationType::ToolsUnpaidLevel2Notification => ['03/11/2026', '08/11/2026', [['number' => 'F-2026-001', 'amount' => '1.234,56 €', 'date' => '01/09/2026']], '1.234,56 €', 'Trustup SA', 'BE68539007547034', null, '+++123/4567/89012+++', 'https://example.test/qr.png', 'https://example.test/invoices'],
         NotificationType::ToolsUnpaidLevel3Notification => ['03/11/2026', '08/11/2026', [['number' => 'F-2026-001', 'amount' => '1.234,56 €', 'date' => '01/09/2026']], '1.234,56 €', 'Trustup SA', 'BE68539007547034', null, '+++123/4567/89012+++', 'https://example.test/qr.png', 'https://example.test/invoices'],
         NotificationType::ToolsUnpaidLevel4Notification => ['03/11/2026', '08/11/2026', [['number' => 'F-2026-001', 'amount' => '1.234,56 €', 'date' => '01/09/2026']], '1.234,56 €', 'Trustup SA', 'BE68539007547034', null, '+++123/4567/89012+++', 'https://example.test/qr.png', 'https://example.test/invoices'],
+        NotificationType::T360OnboardingInvitationNotification => ['email-uuid', 'Sujet', '<p>Bonjour</p>', 'Bonjour'],
+        NotificationType::T360OnboardingConfirmationNotification => ['email-uuid', 'Sujet', '<p>Bonjour</p>', 'Bonjour'],
+        NotificationType::T360OnboardingReminderNotification => ['email-uuid', 'Sujet', '<p>Bonjour</p>', 'Bonjour'],
+        NotificationType::T360OnboardingRescheduledNotification => ['email-uuid', 'Sujet', '<p>Bonjour</p>', 'Bonjour'],
+        NotificationType::T360OnboardingCancelledNotification => ['email-uuid', 'Sujet', '<p>Bonjour</p>', 'Bonjour'],
+        NotificationType::T360OnboardingNoShowNotification => ['email-uuid', 'Sujet', '<p>Bonjour</p>', 'Bonjour'],
+        NotificationType::ToolsPaymentPlanConfirmationNotification => ['plan-email-uuid', 'PLAN-2026-0042', '17/11/2026', [['position' => 1, 'due_on' => '01/12/2026', 'amount' => '250,00 €']], '250,00 €', 'Trustup SA', 'BE68539007547034', 'GKCCBEBB', '+++123/4567/89012+++'],
+        NotificationType::ToolsPaymentPlanInstallmentDueNotification => ['plan-email-uuid', 'PLAN-2026-0042', 1, 3, '01/12/2026', '250,00 €', 'Trustup SA', 'BE68539007547034', 'GKCCBEBB', '+++123/4567/89012+++'],
         default => throw new LogicException("No minimal args defined for [{$type->value}] in coherence test."),
     };
 

@@ -18,6 +18,7 @@ final readonly class EmailChannelEvent implements ChannelEvent
         private ?string $rawProviderCode,
         public ?string $clickedUrl,
         public ?string $bounceType,
+        public ?string $description = null,
     ) {}
 
     public function sendId(): string
@@ -56,6 +57,7 @@ final readonly class EmailChannelEvent implements ChannelEvent
             'raw_provider_code' => $this->rawProviderCode,
             'clicked_url' => $this->clickedUrl,
             'bounce_type' => $this->bounceType,
+            'description' => $this->description,
         ];
     }
 
@@ -70,6 +72,7 @@ final readonly class EmailChannelEvent implements ChannelEvent
             rawProviderCode: isset($data['raw_provider_code']) ? (string) $data['raw_provider_code'] : null,
             clickedUrl: isset($data['clicked_url']) ? (string) $data['clicked_url'] : null,
             bounceType: isset($data['bounce_type']) ? (string) $data['bounce_type'] : null,
+            description: isset($data['description']) ? (string) $data['description'] : null,
         );
     }
 }

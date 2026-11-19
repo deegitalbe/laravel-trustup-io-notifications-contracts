@@ -12,6 +12,7 @@ use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationStatus;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 use Deegitalbe\TrustupIoNotificationsContracts\Exceptions\InvalidEnvelopeException;
 use Deegitalbe\TrustupIoNotificationsContracts\Exceptions\UnknownNotificationTypeException;
+use Deegitalbe\TrustupIoNotificationsContracts\Support\EchoedNotificationData;
 
 readonly class StatusPayload implements Serializable
 {
@@ -26,6 +27,8 @@ readonly class StatusPayload implements Serializable
         public ?string $occurredAt = null,
         public ?ChannelEventKind $kind = null,
         public ?string $failureReason = null,
+        public ?string $providerMessageId = null,
+        public ?string $failureDetail = null,
     ) {}
 
     /** @return array<string, mixed> */
@@ -36,12 +39,14 @@ readonly class StatusPayload implements Serializable
             'channel' => $this->channel->value,
             'status' => $this->status->value,
             'type' => $this->type->value,
-            'data' => $this->data->toArray(),
+            'data' => EchoedNotificationData::toArray($this->data),
             'event_id' => $this->eventId,
             'send_event_id' => $this->sendEventId,
             'occurred_at' => $this->occurredAt,
             'kind' => $this->kind?->value,
             'failure_reason' => $this->failureReason,
+            'provider_message_id' => $this->providerMessageId,
+            'failure_detail' => $this->failureDetail,
         ];
     }
 
@@ -67,9 +72,7 @@ readonly class StatusPayload implements Serializable
             throw new UnknownNotificationTypeException("Unknown notification type [{$typeValue}].");
         }
 
-        $dataClass = $type->dataClass();
-        /** @var NotificationData $notificationData */
-        $notificationData = $dataClass::fromArray((array) ($data['data'] ?? []));
+        $notificationData = EchoedNotificationData::fromArray($type, (array) ($data['data'] ?? []));
 
         return new self(
             sendId: (string) ($data['send_id'] ?? ''),
@@ -82,6 +85,8 @@ readonly class StatusPayload implements Serializable
             occurredAt: isset($data['occurred_at']) ? (string) $data['occurred_at'] : null,
             kind: ChannelEventKind::tryFrom((string) ($data['kind'] ?? '')),
             failureReason: isset($data['failure_reason']) ? (string) $data['failure_reason'] : null,
+            providerMessageId: isset($data['provider_message_id']) ? (string) $data['provider_message_id'] : null,
+            failureDetail: isset($data['failure_detail']) ? (string) $data['failure_detail'] : null,
         );
     }
 }

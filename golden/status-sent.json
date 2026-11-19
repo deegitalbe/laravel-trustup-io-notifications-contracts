@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "direction": "status",
+    "event_id": null,
+    "payload": {
+        "send_id": "01JD7ZK3M4N5P6Q7R8S9T0V1W2",
+        "channel": "email",
+        "status": "sent",
+        "type": "t360.onboarding-invitation.notification",
+        "data": {
+            "onboarding_email_id": "0b8f5c1e-2f4a-4d0e-9a51-6f1d2c3b4a5e",
+            "subject": "Votre onboarding Trustup"
+        },
+        "event_id": "6f1d2c3b-4a5e-4d0e-9a51-0b8f5c1e2f4a",
+        "send_event_id": "1024",
+        "occurred_at": "2026-11-18T09:15:02+00:00",
+        "kind": null,
+        "failure_reason": null,
+        "provider_message_id": "b7bc2f4a-e38e-4336-af7d-e6c392c2f817",
+        "failure_detail": null
+    }
+}

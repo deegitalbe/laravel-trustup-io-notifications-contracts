@@ -11,6 +11,7 @@ use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationChannel;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationType;
 use Deegitalbe\TrustupIoNotificationsContracts\Exceptions\InvalidEnvelopeException;
 use Deegitalbe\TrustupIoNotificationsContracts\Exceptions\UnknownNotificationTypeException;
+use Deegitalbe\TrustupIoNotificationsContracts\Support\EchoedNotificationData;
 
 final readonly class EngagementPayload implements Serializable
 {
@@ -24,6 +25,7 @@ final readonly class EngagementPayload implements Serializable
         public ?string $eventId = null,
         public ?string $sendEventId = null,
         public ?string $occurredAt = null,
+        public ?string $providerMessageId = null,
     ) {}
 
     /** @return array<string, mixed> */
@@ -34,11 +36,12 @@ final readonly class EngagementPayload implements Serializable
             'channel' => $this->channel->value,
             'kind' => $this->kind->value,
             'type' => $this->type->value,
-            'data' => $this->data->toArray(),
+            'data' => EchoedNotificationData::toArray($this->data),
             'clicked_url' => $this->clickedUrl,
             'event_id' => $this->eventId,
             'send_event_id' => $this->sendEventId,
             'occurred_at' => $this->occurredAt,
+            'provider_message_id' => $this->providerMessageId,
         ];
     }
 
@@ -64,9 +67,7 @@ final readonly class EngagementPayload implements Serializable
             throw new UnknownNotificationTypeException("Unknown notification type [{$typeValue}].");
         }
 
-        $dataClass = $type->dataClass();
-        /** @var NotificationData $notificationData */
-        $notificationData = $dataClass::fromArray((array) ($data['data'] ?? []));
+        $notificationData = EchoedNotificationData::fromArray($type, (array) ($data['data'] ?? []));
 
         return new self(
             sendId: (string) ($data['send_id'] ?? ''),
@@ -78,6 +79,7 @@ final readonly class EngagementPayload implements Serializable
             eventId: isset($data['event_id']) ? (string) $data['event_id'] : null,
             sendEventId: isset($data['send_event_id']) ? (string) $data['send_event_id'] : null,
             occurredAt: isset($data['occurred_at']) ? (string) $data['occurred_at'] : null,
+            providerMessageId: isset($data['provider_message_id']) ? (string) $data['provider_message_id'] : null,
         );
     }
 }

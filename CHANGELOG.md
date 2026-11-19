@@ -1,5 +1,36 @@
 # @deegitalbe/laravel-trustup-io-notifications-contracts
 
+## 3.19.0
+
+### Minor Changes
+
+- 2a4f47a: Add the 8 trustup-360 email notifications and attachments to the contract
+  
+  - Accept an optional `attachments` list on every request, each with a name, a type and base64 content validated on construction
+  - Accept 6 onboarding notification types and 2 payment plan types (confirmation, installment due) from the new `t360` source
+  - Add the `onboarding` sender role, sending from the "Trustup Onboarding" address read from the `t360` config
+  - Accept Postmark webhooks for the `t360` source, answering 401 without credentials
+  - Return the Postmark message id (`provider_message_id`) on statuses and engagements, and the readable bounce text (`failure_detail`, 1000 characters at most) on bounced statuses
+  - Leave `html_body` and `text_body` out of the request data echoed on statuses and engagements
+  - Ship reference JSON messages (status sent, status bounced, engagement clicked) in `golden/`
+  <!-- release-note: impact=internal linear=TDD-7610 -->
+- 178aec8: Let a source choose the sender and reply-to of its emails
+  
+  - Accept an optional `sender` on a request (address, name, reply-to), refused at decoding when an address is malformed
+  - Send from that address and name, with that reply-to, when their domains are allowed for the source (`*_POSTMARK_ALLOWED_SENDER_DOMAINS`)
+  - End the send in `error` with `sender_not_allowed` and a readable `failure_detail` when a domain is not allowed, without falling back to the default sender
+  - Add `GET /api/senders/{source}`, behind the server authorization, returning the allowed domains and the default sender
+  <!-- release-note: impact=internal linear=TDD-7660 -->
+
+### Patch Changes
+
+- d80602f: Send trustup-360 emails with their attachments on the t360 Postmark server
+  
+  - Hand every request attachment to Postmark: plain files, and inline images through their `cid:` ContentID
+  - Turn every Postmark event of the `t360` source (delivery, bounce, spam complaint, open, click) into a status or engagement for trustup-360
+  - Version the generic `t360-onboarding-notification-{fr,nl,de,en}` template, with no layout, that outputs the subject, HTML and text written by trustup-360
+  <!-- release-note: impact=internal linear=TDD-7611 -->
+
 ## 3.18.0
 
 ### Minor Changes

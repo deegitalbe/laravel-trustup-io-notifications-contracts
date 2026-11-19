@@ -232,6 +232,31 @@ NotificationType::forSource(Source::Tools);                     // list of types
 
 `slug()`, `supportedChannels()`, and `forSource()` need no changes; channels are derived from the interfaces.
 
+## Sources and sender roles
+
+`Enums\Source` lists the apps that send through the service: `tools`, `marketplace` and `t360`. `t360` has an email channel only (no SMS, no Firebase) and no preferences database, so its recipients are always designated by address. The two payment plan types below keep the `tools.` prefix of their type value but belong to `t360`: `source()` is what routes them, not the prefix.
+
+`Enums\SenderRole` names who sends an email (`default`, `credit_control`, `onboarding`). The contract only names the role; the service maps it to a verified address in its own config, per source and region.
+
+## `t360` onboarding emails
+
+Six types carry an onboarding email already written by trustup-360 in the recipient language: `t360.onboarding-invitation.notification`, `t360.onboarding-confirmation.notification`, `t360.onboarding-reminder.notification`, `t360.onboarding-rescheduled.notification`, `t360.onboarding-cancelled.notification` and `t360.onboarding-no-show.notification`.
+
+All six share `T360OnboardingNotificationData`: `onboarding_email_id`, `subject`, `html_body`, `text_body`, sent as received. They share one Postmark template, `t360-onboarding-notification` (suffixed with the recipient language by the service, so `t360-onboarding-notification-fr`, `-nl`, `-de`, `-en`), while each type stays distinct for tracking. The sender is `Trustup Onboarding` with the `onboarding` role. A missing key makes the whole request fail with `InvalidNotificationDataException`.
+
+## `t360` payment plan emails
+
+Two types render the existing Postmark templates of 360, so they keep the `tools.` prefix (the slug plus the language suffix gives back the current alias) while their source is `t360`. Both are sent by the `credit_control` role, with per-language template granularity, and every key is required: a missing one makes the whole request fail with `InvalidNotificationDataException`. The variables are the keys of the current 360 models, plus `plan_email_id`, which comes back in the status data.
+
+| Type | Data class | Postmark template (suffixed by language) |
+| --- | --- | --- |
+| `tools.payment-plan-confirmation.notification` | `ToolsPaymentPlanConfirmationNotificationData` | `tools-payment-plan-confirmation-notification` |
+| `tools.payment-plan-installment-due.notification` | `ToolsPaymentPlanInstallmentDueNotificationData` | `tools-payment-plan-installment-due-notification` |
+
+Confirmation: `plan_email_id`, `plan_code`, `created_on`, `installments` (list of `position`, `due_on`, `amount`), `total`, `beneficiary`, `iban`, `bic`, `reference`.
+
+Installment due: `plan_email_id`, `plan_code`, `position` (int), `installment_count` (int), `due_on`, `amount`, `beneficiary`, `iban`, `bic`, `reference`.
+
 ## `EmailTemplateLocaleGranularity`
 
 Controls how the notifications service suffixes the Postmark template alias with the recipient locale:
@@ -271,7 +296,13 @@ An identified recipient serialized without a source (the deferred case) must hav
 You rarely build these directly (the client package does), but you read `StatusPayload` / `EngagementPayload` when handling feedback.
 
 - `Envelope` — wire wrapper. `CURRENT_VERSION = 1`, a `direction` (`request` / `status` / `engagement`) and the matching payload.
-- `RequestPayload` — `type`, `recipient`, `data`, `channels` (`null` = all supported, or a non-empty list; `[]` is rejected).
+- `RequestPayload` — `type`, `recipient`, `data`, `channels` (`null` = all supported, or a non-empty list; `[]` is rejected), `attachments` (optional list of `Attachment`, absent on the wire means empty, so current senders change nothing).
+- `Attachment` — a file carried by any request, forwarded as is. Wire keys are snake_case:
+  ```json
+  {"name": "invite.ics", "content_type": "text/calendar; method=REQUEST; charset=UTF-8", "content": "<base64>", "content_id": null}
+  ```
+  `name`, `content_type` and `content` are required and non-empty, and `content` must be strict base64. Anything else throws `InvalidEnvelopeException`, and one invalid attachment refuses the whole request (so does an `attachments` value that is not a list). `content_id` is optional and marks an inline image: keep the `cid:` prefix Postmark expects (`"content_id": "cid:image.jpg"`, referenced in the HTML as `<img src="cid:image.jpg"/>`). The service stores attachments with the request and hands them to Postmark unchanged (`Name`, `Content`, `ContentType`, plus `ContentID` only when set).
+- `Sender` — optional `sender` of a request, overriding the From and reply-to of its email: `{"email": "team@trustup.pro", "name": "Team", "reply_to": {"email": "help@trustup.pro", "name": "Support"}}`. Every part is optional; absent means the role sender of the source. A malformed address throws `InvalidEnvelopeException`. The service accepts only domains allowed for the source (`GET /api/senders/{source}`); any other domain ends the send in `error` with `failure_reason` `sender_not_allowed`, with no fallback.
 - `StatusPayload` — delivery status feedback:
   ```php
   public string $sendId;
@@ -284,6 +315,8 @@ You rarely build these directly (the client package does), but you read `StatusP
   public ?string $occurredAt;            // ISO 8601, when the event occurred
   public ?ChannelEventKind $kind;        // provider event kind, null for lifecycle statuses
   public ?string $failureReason;         // provider or send level failure reason
+  public ?string $providerMessageId;     // provider message id (Postmark MessageID), null before the provider answered
+  public ?string $failureDetail;         // readable bounce text (Postmark Description), 1000 characters at most
   ```
 - `EngagementPayload` — engagement feedback:
   ```php
@@ -296,6 +329,7 @@ You rarely build these directly (the client package does), but you read `StatusP
   public ?string $eventId;               // same meaning as on StatusPayload
   public ?string $sendEventId;
   public ?string $occurredAt;            // ISO 8601
+  public ?string $providerMessageId;     // same meaning as on StatusPayload
   ```
 
 ### Correlation fields
@@ -307,9 +341,13 @@ You rarely build these directly (the client package does), but you read `StatusP
 | `occurred_at` | status, engagement | yes | `null` |
 | `kind` | status | yes | `null`, also for an unknown value (no exception) |
 | `failure_reason` | status | yes | `null` |
+| `provider_message_id` | status, engagement | yes | `null` |
+| `failure_detail` | status | yes | `null` |
 
-- The five fields are backward compatible: a message produced before they existed still decodes, with the fields set to `null`.
+- The fields are backward compatible: a message produced before they existed still decodes, with the fields set to `null`.
 - The fields are generic and never name a source application. Application specific identifiers stay in `data`.
+- `data` echoes the request data without `html_body` and `text_body`: the sender already holds them. Decoding gives them back as empty strings.
+- Reference messages live in `golden/` (`status-sent.json`, `status-bounced.json`, `engagement-clicked.json`); `GoldenJsonTest` keeps them in step with the code.
 - The service publishes one status message per stored channel event, even when the event does not change the canonical status (a spam complaint after a bounce, a second `delivered`). Use `send_event_id` to deduplicate.
 
 ## Locale helpers

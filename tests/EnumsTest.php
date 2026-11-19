@@ -5,11 +5,20 @@ declare(strict_types=1);
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\EventDirection;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationChannel;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\NotificationStatus;
+use Deegitalbe\TrustupIoNotificationsContracts\Enums\SenderRole;
 use Deegitalbe\TrustupIoNotificationsContracts\Enums\Source;
 
 it('Source enum has Tools and Marketplace cases with correct values', function (): void {
     expect(Source::Tools->value)->toBe('tools');
     expect(Source::Marketplace->value)->toBe('marketplace');
+});
+
+it('Source enum has the t360 case', function (): void {
+    expect(Source::T360->value)->toBe('t360');
+});
+
+it('SenderRole enum has the onboarding case', function (): void {
+    expect(SenderRole::Onboarding->value)->toBe('onboarding');
 });
 
 it('NotificationChannel enum has Email, Sms and Push cases', function (NotificationChannel $channel): void {

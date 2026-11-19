@@ -8,4 +8,5 @@ enum Source: string
 {
     case Tools = 'tools';
     case Marketplace = 'marketplace';
+    case T360 = 't360';
 }

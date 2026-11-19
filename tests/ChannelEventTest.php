@@ -32,7 +32,26 @@ it('round-trips an EmailChannelEvent through toArray and fromArray, exposing acc
             'raw_provider_code' => 'HardBounce',
             'clicked_url' => null,
             'bounce_type' => 'HardBounce',
+            'description' => null,
         ]);
+});
+
+it('round-trips the bounce description of an EmailChannelEvent', function (): void {
+    $data = [
+        'send_id' => 'send-1',
+        'channel' => 'email',
+        'kind' => 'bounced',
+        'occurred_at' => '2026-06-24T10:00:00Z',
+        'raw_provider_code' => 'Bounce',
+        'clicked_url' => null,
+        'bounce_type' => 'HardBounce',
+        'description' => 'The server was unable to deliver your message.',
+    ];
+
+    $event = EmailChannelEvent::fromArray($data);
+
+    expect($event->description)->toBe('The server was unable to deliver your message.')
+        ->and($event->toArray())->toBe($data);
 });
 
 it('round-trips an SmsChannelEvent through toArray and fromArray, exposing accessors', function (): void {

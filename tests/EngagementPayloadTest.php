@@ -37,6 +37,7 @@ it('round-trips an EngagementPayload through toArray and fromArray', function ()
             'event_id' => null,
             'send_event_id' => null,
             'occurred_at' => null,
+            'provider_message_id' => null,
         ]);
 });
 
@@ -84,6 +85,7 @@ it('is decoded by EnvelopeSerializer for the engagement direction', function ():
             'event_id' => null,
             'send_event_id' => null,
             'occurred_at' => null,
+            'provider_message_id' => null,
         ]);
 });
 
@@ -108,6 +110,7 @@ it('round-trips the correlation fields through toArray and fromArray', function 
         'event_id' => 'evt-1',
         'send_event_id' => '42',
         'occurred_at' => '2026-08-21T10:00:00+00:00',
+        'provider_message_id' => 'b7bc2f4a-e38e-4336-af7d-e6c392c2f817',
     ];
 
     $payload = EngagementPayload::fromArray($data);

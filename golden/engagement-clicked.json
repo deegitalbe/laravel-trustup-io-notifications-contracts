@@ -1,0 +1,20 @@
+{
+    "version": 1,
+    "direction": "engagement",
+    "event_id": null,
+    "payload": {
+        "send_id": "01JD7ZP2Q3R4S5T6V7W8X9Y0Z1",
+        "channel": "email",
+        "kind": "clicked",
+        "type": "t360.onboarding-confirmation.notification",
+        "data": {
+            "onboarding_email_id": "5e6f7a8b-9c0d-4e1f-8a2b-3c4d5e6f7a8b",
+            "subject": "Votre rendez-vous est confirmé"
+        },
+        "clicked_url": "https://onboarding.trustup.pro/r/abc123",
+        "event_id": "2f4a0b8f-5c1e-4d0e-9a51-6f1d2c3b4a5e",
+        "send_event_id": "4096",
+        "occurred_at": "2026-11-18T10:02:11Z",
+        "provider_message_id": "0a129aee-e1cd-480d-b08d-4f48548ff48d"
+    }
+}

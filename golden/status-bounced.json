@@ -1,0 +1,30 @@
+{
+    "version": 1,
+    "direction": "status",
+    "event_id": null,
+    "payload": {
+        "send_id": "01JD7ZM8X9Y0Z1A2B3C4D5E6F7",
+        "channel": "email",
+        "status": "error",
+        "type": "tools.payment-plan-installment-due.notification",
+        "data": {
+            "plan_email_id": "3c4d5e6f-7a8b-4c9d-8e0f-1a2b3c4d5e6f",
+            "plan_code": "PP-2026-0042",
+            "position": 2,
+            "installment_count": 6,
+            "due_on": "2026-12-01",
+            "amount": "125.00",
+            "beneficiary": "Trustup SRL",
+            "iban": "BE68539007547034",
+            "bic": "GKCCBEBB",
+            "reference": "+++090/9337/55493+++"
+        },
+        "event_id": "9a510b8f-5c1e-4f4a-8d0e-6f1d2c3b4a5e",
+        "send_event_id": "2048",
+        "occurred_at": "2026-11-18T09:16:40Z",
+        "kind": "bounced",
+        "failure_reason": "HardBounce",
+        "provider_message_id": "883953f4-6105-42a2-a16a-77a8eac79483",
+        "failure_detail": "The server was unable to deliver your message (ex: unknown user, mailbox not found)."
+    }
+}

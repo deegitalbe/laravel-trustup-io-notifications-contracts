@@ -10,8 +10,16 @@ use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceSatisfactionSurve
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUnclaimedDemandReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserAssignmentNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\MarketplaceUserReassignNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\T360OnboardingCancelledNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\T360OnboardingConfirmationNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\T360OnboardingInvitationNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\T360OnboardingNoShowNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\T360OnboardingReminderNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\T360OnboardingRescheduledNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewChatMessageForProfessionalNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsNewDemandForProfessionalFreemiumNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsPaymentPlanConfirmationNotificationData;
+use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsPaymentPlanInstallmentDueNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProResponseReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsProSecondReminderNotificationData;
 use Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsTestNotificationData;
@@ -168,4 +176,27 @@ it('maps each unpaid level type to Tools source, its slug and data class', funct
     'unpaid level 2' => [NotificationType::ToolsUnpaidLevel2Notification, 'tools.unpaid-level-2.notification', 'tools-unpaid-level-2-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsUnpaidLevel2NotificationData::class],
     'unpaid level 3' => [NotificationType::ToolsUnpaidLevel3Notification, 'tools.unpaid-level-3.notification', 'tools-unpaid-level-3-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsUnpaidLevel3NotificationData::class],
     'unpaid level 4' => [NotificationType::ToolsUnpaidLevel4Notification, 'tools.unpaid-level-4.notification', 'tools-unpaid-level-4-notification', Deegitalbe\TrustupIoNotificationsContracts\Data\ToolsUnpaidLevel4NotificationData::class],
+]);
+
+it('maps each t360 onboarding type to the t360 source, its slug and data class', function (NotificationType $type, string $slug, string $dataClass): void {
+    expect($type->source())->toBe(Source::T360)
+        ->and($type->slug())->toBe($slug)
+        ->and($type->dataClass())->toBe($dataClass);
+})->with([
+    'invitation' => [NotificationType::T360OnboardingInvitationNotification, 't360-onboarding-invitation-notification', T360OnboardingInvitationNotificationData::class],
+    'confirmation' => [NotificationType::T360OnboardingConfirmationNotification, 't360-onboarding-confirmation-notification', T360OnboardingConfirmationNotificationData::class],
+    'reminder' => [NotificationType::T360OnboardingReminderNotification, 't360-onboarding-reminder-notification', T360OnboardingReminderNotificationData::class],
+    'rescheduled' => [NotificationType::T360OnboardingRescheduledNotification, 't360-onboarding-rescheduled-notification', T360OnboardingRescheduledNotificationData::class],
+    'cancelled' => [NotificationType::T360OnboardingCancelledNotification, 't360-onboarding-cancelled-notification', T360OnboardingCancelledNotificationData::class],
+    'noshow' => [NotificationType::T360OnboardingNoShowNotification, 't360-onboarding-no-show-notification', T360OnboardingNoShowNotificationData::class],
+]);
+
+it('maps each payment plan type to the t360 source, its tools slug and data class', function (NotificationType $type, string $value, string $slug, string $dataClass): void {
+    expect($type->value)->toBe($value)
+        ->and($type->source())->toBe(Source::T360)
+        ->and($type->slug())->toBe($slug)
+        ->and($type->dataClass())->toBe($dataClass);
+})->with([
+    'confirmation' => [NotificationType::ToolsPaymentPlanConfirmationNotification, 'tools.payment-plan-confirmation.notification', 'tools-payment-plan-confirmation-notification', ToolsPaymentPlanConfirmationNotificationData::class],
+    'installment due' => [NotificationType::ToolsPaymentPlanInstallmentDueNotification, 'tools.payment-plan-installment-due.notification', 'tools-payment-plan-installment-due-notification', ToolsPaymentPlanInstallmentDueNotificationData::class],
 ]);
